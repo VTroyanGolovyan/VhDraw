@@ -83,7 +83,8 @@ body{
 }
 .draw-area{
   margin-top: 80px;
-  background: #d4d4d4;
+  
+  background-image:url("../img/glue.png");
 }
 canvas{
   margin: 0;

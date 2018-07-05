@@ -137,13 +137,22 @@ var draw = {
     draw.state.paper.renderLayersControllers("layers");
   },
   render : function(){
-    draw.state.viewctx.clearRect(0,0,draw.state.view.width,draw.state.view.height);
-    draw.state.viewctx.drawImage(draw.state.paper.getView(),0,0,
+    try{
+        draw.state.viewctx.fillStyle = "#d4d4d4";
+        draw.state.viewctx.clearRect(0,0,draw.state.view.width,draw.state.view.height);
+        draw.state.viewctx.fillRect(0,0,draw.state.view.width,draw.state.view.height);
+        draw.state.viewctx.clearRect(-Math.floor(draw.state.area.x*draw.state.area.scale),
+        -Math.floor(draw.state.area.y*draw.state.area.scale) ,Math.floor(draw.state.area.width*draw.state.area.scale),
+        Math.floor(draw.state.area.height*draw.state.area.scale));
+        draw.state.viewctx.drawImage(draw.state.paper.getView(),0,0,
                                  draw.state.area.width, draw.state.area.height,
                                  -Math.floor(draw.state.area.x*draw.state.area.scale),
                                  -Math.floor(draw.state.area.y*draw.state.area.scale) ,Math.floor(draw.state.area.width*draw.state.area.scale),
                                  Math.floor(draw.state.area.height*draw.state.area.scale));
-    draw.state.tool.render(draw.state.viewctx);
+        draw.state.tool.render(draw.state.viewctx);
+    }catch(e){
+
+    }
     requestAnimationFrame(draw.render);
   },
   changeTool : function(toolName){
@@ -181,7 +190,9 @@ var draw = {
     if (toolName == "Fill"){
         draw.state.tool = new Fill(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
     }
-
+    if (toolName == "Move"){
+        draw.state.tool = new Move(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
+    }
     //draw.state.paper.getLayer(draw.state.activeLayer).save();
   },
   changeColor : function(num,type){

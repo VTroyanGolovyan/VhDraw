@@ -10,7 +10,10 @@ function Layer(x,y,width,height){
   this.visible = true;
   this.history = new Array();
   this.now = 0;
-
+  this.move = function(dx,dy){
+    this.x += dx;
+    this.y += dy;
+  }
   this.save = function(){
     var savePoint = document.createElement('canvas');
     savePoint.width = this.width;

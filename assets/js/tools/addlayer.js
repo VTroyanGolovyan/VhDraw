@@ -1,4 +1,8 @@
 function AddLayer(state, ctx){
+
+  this.lastUpdate = new Date().getTime();
+  this.f = true;
+
   this.active = false;
   this.ctx = ctx;
   this.state = state;
@@ -10,8 +14,21 @@ function AddLayer(state, ctx){
   this.y = 0;
   this.render = function(ctx){
     if (this.active){
-       ctx.strokeStyle = state.mainColor;
        ctx.lineWidth = 1;
+       ctx.strokeStyle = 'orange';
+       ctx.setLineDash([1, 0]);
+       ctx.strokeRect(this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
+       ctx.strokeStyle = 'red';
+
+       if(new Date().getTime() - this.lastUpdate >= 250){
+         this.f = !this.f;
+         this.lastUpdate = new Date().getTime();
+       }
+       if (this.f)
+          ctx.setLineDash([5, 3]);
+       else {
+          ctx.setLineDash([5, 6]);
+       }
        ctx.strokeRect(this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
     }
   }

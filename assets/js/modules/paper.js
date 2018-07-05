@@ -14,8 +14,7 @@ function Paper(width,height,state){
   this.lastUpdate = new Date().getTime();
   this.f = true;
   this.getView = function(){
-    this.ctx.fillStyle = "white";
-    this.ctx.fillRect(0,0,this.width,this.height);
+    this.ctx.clearRect(0,0,this.width,this.height);
     for (var i = 0; i < this.layers.length; i++){
         if (this.layers[i].isVisible()){
           this.ctx.drawImage(this.layers[i].getView(),this.layers[i].x,this.layers[i].y);
@@ -58,6 +57,21 @@ function Paper(width,height,state){
   }
   this.save = function(){
     this.getLayer(this.state.activeLayer).save()
+  }
+  this.deleteLayer = function(id){
+    if (this.state.activeLayer == id && this.layers.length != 1){
+      if (id == this.layers.length-1){
+        this.changeActiveLayer(this.state.activeLayer-1);
+      }
+    }else{
+      if(this.state.activeLayer != 0){
+        this.changeActiveLayer(this.state.activeLayer-1);
+      }
+    }
+    this.layers.splice(id,1);
+    this.renderLayersControllers('layers');
+    this.changeActiveLayer(this.state.activeLayer);
+    draw.changeTool(this.state.toolName);
   }
   this.addLayer = function(x,y,width,height){
     this.layers.push(new Layer(x,y,width,height));
@@ -116,27 +130,35 @@ function Paper(width,height,state){
           input.setAttribute("checked","");
       }
       layer.appendChild(input);
+      var del = document.createElement("span");
+      del.innerHTML = "Удалить";
+      var t = this;
+      del.setAttribute("data-id",i);
+      del.onclick = function(){
+        if (confirm("Удалить слой навсегда?"))
+           t.deleteLayer(this.getAttribute("data-id"));
+      }
+      layer.appendChild(del);
       layer.appendChild(img);
       img.style.width = "100%";
-      var t = this;
       input.onchange = function(){
         t.getLayer(this.getAttribute("data-id")).changeVisible();
       }
 
       name.setAttribute("id",i);
       name.onclick = function(){
-      //  t.state.canvas = t.getLayer(parseInt(this.getAttribute("id"))).getView();
-      //  t.state.ctx = t.getLayer(parseInt(this.getAttribute("id"))).getCtx();
         t.state.activeLayer = parseInt(this.getAttribute("id"));
         if (t.state.toolName == 'AddImageLayer')
            t.state.toolName = 'Pencil';
           draw.changeTool(t.state.toolName);
           t.renderLayersControllers('layers');
       }
-    //  layer.appendChild(this.layers[i].getView());
       container.appendChild(layer);
     }
 
   }
+  var tl = this.getLayer(0);
+  tl.getCtx().fillStyle = "white";
+  tl.getCtx().fillRect(0,0,tl.width,tl.height);
 
 }

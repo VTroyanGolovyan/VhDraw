@@ -1,4 +1,7 @@
 function AddImageLayer(state, ctx){
+  this.lastUpdate = new Date().getTime();
+  this.f = true;
+
   this.active = false;
   this.ctx = ctx;
   this.state = state;
@@ -29,9 +32,23 @@ function AddImageLayer(state, ctx){
   }
   this.render = function(ctx){
     if (this.active){
-       ctx.strokeStyle = state.mainColor;
-       ctx.lineWidth = 1;
        ctx.drawImage(this.img,this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
+       ctx.lineWidth = 1;
+       ctx.strokeStyle = 'orange';
+       ctx.setLineDash([1, 0]);
+       ctx.strokeRect(this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
+       ctx.strokeStyle = 'red';
+
+       if(new Date().getTime() - this.lastUpdate >= 250){
+         this.f = !this.f;
+         this.lastUpdate = new Date().getTime();
+       }
+       if (this.f)
+          ctx.setLineDash([5, 3]);
+       else {
+          ctx.setLineDash([5, 6]);
+       }
+       ctx.strokeRect(this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
     }
   }
   this.onmousedown  = function(coords){
@@ -74,6 +91,7 @@ function AddImageLayer(state, ctx){
        this.state.paper.addLayer(x,y,width,height);
     var layer = draw.state.paper.getLayer(draw.state.activeLayer)
     layer.getCtx().drawImage(this.img,0,0,layer.width,layer.height);
+    this.state.paper.getLayer(this.state.activeLayer).save();
   }
   this.onmouseout = function(){
      this.active = false;
