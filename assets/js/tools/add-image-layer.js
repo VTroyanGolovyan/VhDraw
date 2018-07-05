@@ -49,6 +49,7 @@ function AddImageLayer(state, ctx){
           ctx.setLineDash([5, 6]);
        }
        ctx.strokeRect(this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
+       ctx.setLineDash([1, 0]);
     }
   }
   this.onmousedown  = function(coords){
