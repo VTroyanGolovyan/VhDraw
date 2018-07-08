@@ -30,26 +30,29 @@ function AddImageLayer(state, ctx){
        img.src = "";
      }
   }
+  this.renderScaleImage = function(ctx,x,y,w,h){
+    ctx.drawImage(this.img,x,y,w,h);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'orange';
+    ctx.setLineDash([1, 0]);
+    ctx.strokeRect(x,y,w,h);
+    ctx.strokeStyle = 'red';
+
+    if(new Date().getTime() - this.lastUpdate >= 250){
+      this.f = !this.f;
+      this.lastUpdate = new Date().getTime();
+    }
+    if (this.f)
+       ctx.setLineDash([5, 3]);
+    else {
+       ctx.setLineDash([5, 6]);
+    }
+    ctx.strokeRect(x,y,w,h);
+    ctx.setLineDash([1, 0]);
+  }
   this.render = function(ctx){
     if (this.active){
-       ctx.drawImage(this.img,this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
-       ctx.lineWidth = 1;
-       ctx.strokeStyle = 'orange';
-       ctx.setLineDash([1, 0]);
-       ctx.strokeRect(this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
-       ctx.strokeStyle = 'red';
-
-       if(new Date().getTime() - this.lastUpdate >= 250){
-         this.f = !this.f;
-         this.lastUpdate = new Date().getTime();
-       }
-       if (this.f)
-          ctx.setLineDash([5, 3]);
-       else {
-          ctx.setLineDash([5, 6]);
-       }
-       ctx.strokeRect(this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
-       ctx.setLineDash([1, 0]);
+      this.renderScaleImage(ctx,this.startvX,this.startvY,this.x - this.startvX, this.y - this.startvY);
     }
   }
   this.onmousedown  = function(coords){

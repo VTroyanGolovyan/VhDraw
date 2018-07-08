@@ -83,7 +83,7 @@ body{
 }
 .draw-area{
   margin-top: 80px;
-  
+
   background-image:url("../img/glue.png");
 }
 canvas{
@@ -354,6 +354,7 @@ option{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  padding: 4px;
 
 }
 .closeShabloneMenu{
@@ -365,13 +366,41 @@ option{
   color:white;
   line-height: 40px;
   cursor: pointer;
+  border-radius: 3px;
 }
 #openToolBox,.mobileTop{
   display: none;
 }
 .mobileScale{
   display: none;
-    z-index:500;
+  z-index:500;
+}
+.downloadContainer{
+  width: 20%;
+  padding: 4px;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 0 3px black;
+}
+.selectFormat{
+  width: 100%;
+  height: 40px;
+  font-size: 25px;
+  text-align: center;
+  background: #004ab8;
+  color:white;
+  line-height: 40px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.downloadItem{
+  cursor: pointer;
+  padding: 8px 0;
+  font-size: 25px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+
 }
 @media  all and (max-width:480px) {
   .toolbox{

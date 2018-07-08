@@ -30,23 +30,30 @@
             <div id = "palette">
               <input type="checkbox" id = "toogle">
               <div id = "colorColection">
-                <div class =  "color" style="background:rgb(0,255,255)"></div>
-                <div class =  "color" style="background:rgb(255,255,255)"></div>
-                <div class =  "color" style="background:rgb(0,0,0)"></div>
-                <div class =  "color" style="background:rgb(0,0,255)"></div>
-                <div class =  "color" style="background:rgb(255,0,255)"></div>
-                <div class =  "color" style="background:rgb(0,255,255)"></div>
-                <div class =  "color" style="background:rgb(255,255,255)"></div>
-                <div class =  "color" style="background:rgb(0,0,0)"></div>
-                <div class =  "color" style="background:rgb(0,0,255)"></div>
-                <div class =  "color" style="background:rgb(255,0,255)"></div>
-                <div class =  "color" style="background:rgb(0,255,255)"></div>
-                <div class =  "color" style="background:rgb(255,255,255)"></div>
-                <div class =  "color" style="background:rgb(0,0,0)"></div>
-                <div class =  "color" style="background:rgb(0,0,255)"></div>
-                <div class =  "color" style="background:rgb(255,0,255)"></div>
-                <div class =  "color" style="background:rgb(0,255,255)"></div>
+                <div onclick = "draw.changeColorRGB(0,0,0)" class =  "color" style="background:rgb(0,0,0)"></div>
 
+                <div onclick = "draw.changeColorRGB(178,34,34)" class =  "color" style="background:rgb(178,34,34)"></div>
+                <div onclick = "draw.changeColorRGB(255,0,0)" class =  "color" style="background:rgb(255,0,0)"></div>
+                <div onclick = "draw.changeColorRGB(255,69,0)" class =  "color" style="background:rgb(255,69,0)"></div>
+                <div onclick = "draw.changeColorRGB(250,128,114)" class =  "color" style="background:rgb(250,128,114)"></div>
+                <div onclick = "draw.changeColorRGB(255,255,0)" class =  "color" style="background:rgb(255,255,0)"></div>
+
+                <div onclick = "draw.changeColorRGB(0,255,0)" class =  "color" style="background:rgb(0,255,0)"></div>
+                <div onclick = "draw.changeColorRGB(50,205,50)" class =  "color" style="background:rgb(50,205,50)"></div>
+                <div onclick = "draw.changeColorRGB(34,139,34)" class =  "color" style="background:rgb(34,139,34)"></div>
+
+                <div onclick = "draw.changeColorRGB(148,0,211)" class =  "color" style="background:rgb(148,0,211)"></div>
+                <div onclick = "draw.changeColorRGB(139,10,80)" class =  "color" style="background:rgb(139,10,80)"></div>
+
+                <div onclick = "draw.changeColorRGB(0,0,255)" class =  "color" style="background:rgb(0,0,255)"></div>
+                <div onclick = "draw.changeColorRGB(0,0,205)" class =  "color" style="background:rgb(0,0,205)"></div>
+                <div onclick = "draw.changeColorRGB(0,191,255)" class =  "color" style="background:rgb(0,191,255)"></div>
+                <div onclick = "draw.changeColorRGB(0,255,255)" class =  "color" style="background:rgb(0,255,255)"></div>
+
+
+
+
+                <div onclick = "draw.changeColorRGB(255,255,255)" class =  "color" style="background:rgb(255,255,255)"></div>
               </div>
               <div id = "colorPicker" class = "colorPicker">
                  <div class = "checkline">
@@ -113,11 +120,14 @@
                <div title = "Пипетка" onclick="draw.changeTool('Pipette')">
                  <img src = "assets/icon/pipette.png">
                </div>
-               <div class = "hidden" title = "Заливка" onclick="draw.changeTool('Fill')">
+               <div title = "Заливка" onclick="draw.changeTool('Fill')">
                  <img src = "assets/icon/fill.png">
                </div>
                <div title = "Перемещение" onclick="draw.changeTool('Move')">
                  <img src = "assets/icon/move.png">
+               </div>
+               <div title = "Ножницы" onclick="draw.changeTool('Cut')">
+                 <img src = "assets/icon/cut.png">
                </div>
             </div>
             <label for = "FStogle" class = "full-screen">
@@ -197,6 +207,7 @@
        <script src = "assets/js/tools/fill-ellips.js"></script>
        <script src = "assets/js/tools/fill.js"></script>
        <script src = "assets/js/tools/move.js"></script>
+       <script src = "assets/js/tools/cut.js"></script>
        <!-- Ядро -->
        <script src = "assets/js/draw.js"></script>
    </body>

@@ -19,6 +19,10 @@ function Pipette(state, ctx){
     document.getElementById("b").value = b;
     document.getElementById("mainColor").style.background = "rgb("+r+","+g+","+b+")";
     this.state.mainColor = "rgb("+r+","+g+","+b+")";
+    this.state.mainColorRGBA.r = r;
+    this.state.mainColorRGBA.g = g;
+    this.state.mainColorRGBA.b = b;
+    this.state.mainColorRGBA.a = a;
   }
 
   this.onmousemove  = function(coords){

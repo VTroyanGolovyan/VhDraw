@@ -8,13 +8,29 @@ function Ellips(state, ctx){
   this.startvY = 0;
   this.x = 0;
   this.y = 0;
+  this.shiftDraw = function(ctx,x1,y1,x2,y2){
+    if (Math.abs(x1 - x2) > Math.abs(y1 - y2)){
+      ctx.beginPath();
+      ctx.ellipse(x1,y1, Math.abs(x1 - x2), Math.abs(x1 - x2),0,0,2 * Math.PI);
+      ctx.stroke();
+    }else{
+      ctx.beginPath();
+      ctx.ellipse(x1,y1, Math.abs(y1 - y2), Math.abs(y1 - y2),0,0,2 * Math.PI);
+      ctx.stroke();
+    }
+  }
   this.render = function(ctx){
     if (this.active){
        ctx.lineWidth = state.lineWidth*state.area.scale;
        ctx.strokeStyle = state.mainColor;
-       ctx.beginPath();
-       ctx.ellipse(this.startvX,this.startvY, Math.abs(this.x - this.startvX), Math.abs(this.y - this.startvY),0,0,2 * Math.PI);
-       ctx.stroke();
+       if (this.state.hotkeys.shift){
+         this.shiftDraw(ctx,this.startvX, this.startvY,this.x,this.y);
+       }else{
+         ctx.beginPath();
+         ctx.ellipse(this.startvX,this.startvY, Math.abs(this.x - this.startvX), Math.abs(this.y - this.startvY),0,0,2 * Math.PI);
+         ctx.stroke();
+       }
+
     }
   }
   this.onmousedown  = function(coords){
@@ -40,10 +56,14 @@ function Ellips(state, ctx){
      this.ctx.strokeStyle = state.mainColor;
      this.ctx.lineWidth = state.lineWidth;
      this.active = false;
+     if (this.state.hotkeys.shift){
+       this.shiftDraw(this.ctx,this.startX,this.startY,coords.x,coords.y);
+     }else{
+       this.ctx.beginPath();
+       this.ctx.ellipse(this.startX,this.startY, Math.abs(coords.x - this.startX), Math.abs(coords.y - this.startY),0,0,2 * Math.PI);
+       this.ctx.stroke();
+     }
 
-     ctx.beginPath();
-     ctx.ellipse(this.startX,this.startY, Math.abs(coords.x - this.startX), Math.abs(coords.y - this.startY),0,0,2 * Math.PI);
-     ctx.stroke();
      this.state.paper.save();
   }
   this.onmouseout = function(){

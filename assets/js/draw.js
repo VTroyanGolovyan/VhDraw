@@ -3,6 +3,12 @@ var draw = {
     tool : "",
     toolName : "Pencil",
     mainColor : "black",
+    mainColorRGBA : {
+      r:0,
+      g:0,
+      b:0,
+      a:255
+    },
     secondColor : "white",
     view : "",
     viewctx : "",
@@ -57,9 +63,10 @@ var draw = {
   },
   init : function(id){
     var w =  document.body.clientWidth;
-    var h =  document.documentElement.clientHeight|| document.body.clientHeight;
+    var h =  window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
 
     draw.state.paper = new Paper(w,h,draw.state);
+    draw.state.paper.getLayer(0).save();
     draw.state.activeLayer = 0;
 
     draw.state.view = document.createElement("canvas");
@@ -73,6 +80,8 @@ var draw = {
     draw.state.area.y = 0;
     draw.state.area.width = w;
     draw.state.area.height = h;
+
+    draw.calcScale(draw.state.paper.width, draw.state.paper.height, draw.state.view.width, draw.state.view.height);
 
     draw.state.tool = new Pencil(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
 
@@ -125,6 +134,9 @@ var draw = {
            draw.state.area.y+=10;
         }else if(e.keyCode == 40){
            draw.state.area.y-=10;
+        }else if(e.keyCode == 46){ //delete
+          if (confirm("Удалить слой навсегда?"))
+           draw.state.paper.deleteLayer(draw.state.activeLayer);
         }
     }
     document.body.onkeydown = function(e){
@@ -132,6 +144,11 @@ var draw = {
          draw.back();
       if (e.ctrlKey && (e.which == 89 || e.keyCode == 89))
          draw.forward();
+      if (e.shiftKey)
+         draw.state.hotkeys.shift = true;
+    }
+    document.body.onkeyup = function(e){
+         draw.state.hotkeys.shift = false;
     }
     draw.render();
     draw.state.paper.renderLayersControllers("layers");
@@ -193,6 +210,9 @@ var draw = {
     if (toolName == "Move"){
         draw.state.tool = new Move(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
     }
+    if (toolName == "Cut"){
+        draw.state.tool = new Cut(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
+    }
     //draw.state.paper.getLayer(draw.state.activeLayer).save();
   },
   changeColor : function(num,type){
@@ -215,6 +235,10 @@ var draw = {
       draw.state.mainColor = "rgb(" + r + ","+ g +","+ b +")";
       document.getElementById("mainColor").style.background = draw.state.mainColor;
     }
+    draw.state.mainColorRGBA.r = r;
+    draw.state.mainColorRGBA.b = b;
+    draw.state.mainColorRGBA.g = g;
+    draw.state.mainColorRGBA.a = 255;
   },
   changeLineWidth(){
     draw.state.lineWidth =  document.getElementById('lw').value;
@@ -227,6 +251,7 @@ var draw = {
       draw.state.paper.addLayer(0,0,this.width,this.height);
       draw.state.paper.getLayer(0).getCtx().drawImage(this,0,0);
       draw.state.paper.changeActiveLayer(1);
+      draw.calcScale(draw.state.paper.width, draw.state.paper.height, draw.state.view.width, draw.state.view.height);
     }
   },
   back : function(){
@@ -234,6 +259,31 @@ var draw = {
   },
   forward : function(){
     draw.state.paper.getLayer(draw.state.activeLayer).forward();
+  },
+  changeColorRGB : function(r,g,b){
+    draw.state.mainColorRGBA.r = r;
+    draw.state.mainColorRGBA.b = b;
+    draw.state.mainColorRGBA.g = g;
+    draw.state.mainColorRGBA.a = 255;
+    draw.state.mainColor = "rgb(" + r + ","+ g +","+ b +")";
+    document.getElementById("mainColor").style.background = draw.state.mainColor;
+  },
+  calcScale : function(w,h,w1,h1){
+    var t = h;
+    if (w > w1){
+      let tw = w;
+      w = w1;
+      h = h*w1/tw;
+    }
+
+    if (h > h1){
+      let th = h;
+      h = h1;
+      w = w*h1/th;
+    }
+    draw.state.area.scale = h/t;
+    draw.state.area.x = -Math.floor((w1-w)/draw.state.area.scale/2);
+    draw.state.area.y = -Math.floor((h1-h)/draw.state.area.scale/2);
   }
 }
 
