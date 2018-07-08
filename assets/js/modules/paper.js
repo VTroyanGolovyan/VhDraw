@@ -59,6 +59,7 @@ function Paper(width,height,state){
     this.getLayer(this.state.activeLayer).save()
   }
   this.deleteLayer = function(id){
+    this.state.deletedLayers.push(this.layers[id]);
     if (this.state.activeLayer == id && this.layers.length != 1){
       if (id == this.layers.length-1){
         this.changeActiveLayer(this.state.activeLayer-1);
@@ -135,7 +136,7 @@ function Paper(width,height,state){
       var t = this;
       del.setAttribute("data-id",i);
       del.onclick = function(){
-        if (confirm("Удалить слой навсегда?"))
+        if (confirm("Удалить слой (Востановление ctrl+e)?"))
            t.deleteLayer(this.getAttribute("data-id"));
       }
       layer.appendChild(del);
@@ -156,6 +157,14 @@ function Paper(width,height,state){
       container.appendChild(layer);
     }
 
+  }
+  this.restoreLayer = function(layer){
+    this.layers.push(layer);
+    this.state.activeLayer = this.layers.length-1;
+    this.renderLayersControllers('layers');
+    if (this.state.toolName == 'AddImageLayer')
+       this.state.toolName = 'Pencil';
+    draw.changeTool(this.state.toolName);
   }
   var tl = this.getLayer(0);
   tl.getCtx().fillStyle = "white";

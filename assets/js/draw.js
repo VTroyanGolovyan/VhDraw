@@ -26,7 +26,8 @@ var draw = {
       height : 0
     },
     scrollVal:15,
-    paper : ""
+    paper : "",
+    deletedLayers : new Array()
   },
   getXY : function(evt){
     var rect = draw.state.view.getBoundingClientRect();
@@ -135,17 +136,18 @@ var draw = {
         }else if(e.keyCode == 40){
            draw.state.area.y-=10;
         }else if(e.keyCode == 46){ //delete
-          if (confirm("Удалить слой навсегда?"))
+          if (confirm("Удалить слой (Востановление ctrl+e)?"))
            draw.state.paper.deleteLayer(draw.state.activeLayer);
         }
     }
     document.body.onkeydown = function(e){
       if (e.ctrlKey && (e.which == 90 || e.keyCode == 90))
-         draw.back();
+         draw.back();  //ctrl z
       if (e.ctrlKey && (e.which == 89 || e.keyCode == 89))
-         draw.forward();
-      if (e.shiftKey)
-         draw.state.hotkeys.shift = true;
+         draw.forward(); //ctrl y
+      if (e.ctrlKey && (e.which == 69 || e.keyCode == 69))
+        draw.restoreLayer(); //ctrl e
+      draw.state.hotkeys.shift = true;
     }
     document.body.onkeyup = function(e){
          draw.state.hotkeys.shift = false;
@@ -213,7 +215,9 @@ var draw = {
     if (toolName == "Cut"){
         draw.state.tool = new Cut(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
     }
-    //draw.state.paper.getLayer(draw.state.activeLayer).save();
+    if (toolName == "Text"){
+        draw.state.tool = new Text(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
+    }
   },
   changeColor : function(num,type){
     if (type == 1){
@@ -284,6 +288,12 @@ var draw = {
     draw.state.area.scale = h/t;
     draw.state.area.x = -Math.floor((w1-w)/draw.state.area.scale/2);
     draw.state.area.y = -Math.floor((h1-h)/draw.state.area.scale/2);
+  },
+  restoreLayer : function(){
+    if (draw.state.deletedLayers.length > 0){
+      draw.state.paper.restoreLayer(draw.state.deletedLayers[draw.state.deletedLayers.length-1]);
+      draw.state.deletedLayers.pop();
+    }
   }
 }
 

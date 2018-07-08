@@ -69,7 +69,7 @@ function Cut(state, ctx){
        y = coords.y;
        height = this.startY -  coords.y;
      }
-     if(width > 0 && height > 0 && confirm("Вы уверены, что хотите обрезать слой?"))
+     if(width > 0 && height > 0)
        this.state.paper.getLayer(this.state.activeLayer).cut(x,y,width,height);
   }
   this.onmouseout = function(){
