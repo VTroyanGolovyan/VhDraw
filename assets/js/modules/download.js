@@ -1,4 +1,5 @@
 function renderDownload(){
+  document.getElementById('openToolBox').checked = false;
   var download = document.createElement("div");
   download.className = 'shablones';
   var select = document.createElement("div");

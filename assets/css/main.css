@@ -104,7 +104,7 @@ canvas{
   width:40px;
   height: 40px;
   font-size: 0;
-  box-shadow: 0 0 3px black;
+  box-shadow: 0 0 3px #727171;
   cursor: pointer;
   background: black;
   margin: 5px;
@@ -131,11 +131,20 @@ canvas{
   flex-wrap: wrap;
   justify-content: space-around;
 }
-#colorColection div{
-  width: 30px;
+#colorColection .colorLine{
+  width: calc(100% - 12px);
   height: 30px;
   margin: 5px;
-  box-shadow: 0 0 3px black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+}
+.colorLine div{
+  height: 30px;
+  width:30px;
+  margin: 0 5px;
+  box-shadow: 0 0 3px #727171;
 }
 #palette{
   width: 40%;
@@ -166,11 +175,17 @@ canvas{
   font-size: 20px;
 }
 .toollist{
-  width:calc(35% - 68px);
+  width:calc(35% - 70px);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 5px;
+  padding: 0 5px;
+  justify-content: space-between;
+  align-items: center;
+}
+.centerImg{
+  margin: auto;
+  width: 90%;
 }
 .settings{
   width: 10%;
@@ -181,7 +196,7 @@ canvas{
   display: flex;
   width: 100%;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content:  center;
 
 }
 .full-screen{
@@ -237,6 +252,7 @@ canvas{
   height: 30px;
   cursor: pointer;
 }
+
 .toollist div img{
   width:30px;
   height: 30px;
@@ -280,7 +296,7 @@ canvas{
   position: fixed;
   top:0;
   left:0;
-  z-index: 800;
+  z-index: 4000;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -319,7 +335,12 @@ canvas{
 }
 .layerName{
   text-align: center;
-
+  color:#585858;
+}
+#tool-mini{
+  position: fixed;
+  width: 20px;
+  z-index: 1150;
 }
 .buttons{
   width: calc(15% - 10px);
@@ -329,7 +350,7 @@ canvas{
   justify-content: space-around;
   padding: 0 5px;
 }
-.button, .buttonL{
+.button, .buttonL, .buttonL2{
   width: 100%;
   background: #004ab8;
   text-align: center;
@@ -339,9 +360,8 @@ canvas{
   cursor: pointer;
   margin-bottom: 5px;
 }
-
 .lineSelect{
-  color:#004ab8;
+  color:#585858;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -354,7 +374,18 @@ option{
   color: #004ab8;
 
 }
-.containerOfShablones{
+.topLayerContainer{
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.topLayerContainer div img{
+  width:25px;
+  cursor: pointer;
+}
+.containerOfShablones,.docu{
   width:70%;
   height: 70%;
   background: white;
@@ -411,6 +442,22 @@ option{
   line-height: 40px;
   text-align: center;
 
+}
+#docu{
+  display: none;
+}
+.docu section{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.docu section h2{
+  text-align: center;
+  color:#004ab8;
+}
+.docu section p img{
+  width:20px;
 }
 @media  all and (max-width:480px) {
   .toolbox{
@@ -541,6 +588,18 @@ option{
     width:32px;
   }
   .history{
+    display: none;
+  }
+  .downloadContainer{
+    width:80%;
+  }
+  .shablone{
+    width:100%;
+  }
+  .shabloneContainer,.docu{
+    width:90%;
+  }
+  #tool-mini{
     display: none;
   }
 }

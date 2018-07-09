@@ -43,7 +43,6 @@ function floodFill(x, y, fillcolor, ctx, width, height, inclination) {
 	var e = i, w = i, me, mw, w2 = width*4;
 	var targetcolor = [data[i],data[i+1],data[i+2],data[i+3]];
 
-
 	if(!pixelCompare(i,targetcolor,fillcolor,data,length,inclination)) { return false; }
 	Q.push(i);
 	while(Q.length) {
@@ -55,7 +54,7 @@ function floodFill(x, y, fillcolor, ctx, width, height, inclination) {
 			me = mw+w2;	//right bound
 			while(mw<(w-=4) && pixelCompareAndSet(w,targetcolor,fillcolor,data,length,inclination)); //go left until edge hit
 			while(me>(e+=4) && pixelCompareAndSet(e,targetcolor,fillcolor,data,length,inclination)); //go right until edge hit
-			for(var j=w;j<e;j+=4) {
+			for(var j=w+4;j<e;j+=4){
 				if(j-w2>=0 		&& pixelCompare(j-w2,targetcolor,fillcolor,data,length,inclination))
           Q.push(j-w2); //queue y-1
 				if(j+w2<length	&& pixelCompare(j+w2,targetcolor,fillcolor,data,length,inclination))
@@ -85,7 +84,7 @@ function pixelCompare(i,targetcolor,fillcolor,data,length,inclination) {
 	) return true; //target matches surface
 
 	if (
-		Math.abs(targetcolor[3] - data[i+3]) <= (255-inclination) &&
+		Math.abs(targetcolor[3] - data[i+3]) <= (inclination) &&
 		Math.abs(targetcolor[0] - data[i]  ) <= inclination &&
 		Math.abs(targetcolor[1] - data[i+1]) <= inclination &&
 		Math.abs(targetcolor[2] - data[i+2]) <= inclination
@@ -94,8 +93,8 @@ function pixelCompare(i,targetcolor,fillcolor,data,length,inclination) {
 	return false; //no match
 }
 
-function pixelCompareAndSet(i,targetcolor,fillcolor,data,length,tolerance) {
-	if(pixelCompare(i,targetcolor,fillcolor,data,length,tolerance)) {
+function pixelCompareAndSet(i,targetcolor,fillcolor,data,length,inclination) {
+	if(pixelCompare(i,targetcolor,fillcolor,data,length,inclination)) {
 		//fill the color
 		data[i] 	 = fillcolor.r;
 		data[i+1] = fillcolor.g;

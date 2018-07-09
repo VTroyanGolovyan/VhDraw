@@ -33,12 +33,13 @@ function Text(state, ctx){
   }
   this.text = "";
   input.setAttribute('type','text');
-  input.setAttribute('id','fileup');
+  cont.setAttribute('id','fileup');
+
   document.body.appendChild(cont);
   input.click();
   var t = this;
   input.oninput = function(){
-     t.text   = document.getElementById('fileup').value;
+     t.text   = this.value;
   }
 
   this.render = function(ctx){

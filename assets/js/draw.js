@@ -63,13 +63,17 @@ var draw = {
     draw.state.area.scale+=x;
   },
   init : function(id){
+
     var w =  document.body.clientWidth;
     var h =  window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
 
     draw.state.paper = new Paper(w,h,draw.state);
+    draw.state.paper.addLayer(0,0,w,h);
+    draw.state.paper.getLayer(0).name = "Шаблон";
     draw.state.paper.getLayer(0).save();
+    draw.state.paper.getLayer(1).save();
     draw.state.activeLayer = 0;
-
+    draw.state.paper.changeActiveLayer(1);
     draw.state.view = document.createElement("canvas");
     draw.state.view.width = w;
     if (document.body.width > 480)
@@ -100,7 +104,13 @@ var draw = {
         draw.state.tool.onmousedown(draw.getXY(e));
     }
     draw.state.view.onmousemove = function(e){
+        if (document.getElementById('tool-mini')){
+          let t = document.getElementById('tool-mini');
+          t.style.top = (e.clientY-15)+"px";
+          t.style.left = (e.clientX-25)+"px";
+        }
         draw.state.tool.onmousemove(draw.getXY(e));
+
     }
     draw.state.view.onmouseup = function(e){
         draw.state.tool.onmouseup(draw.getXY(e));
@@ -143,11 +153,38 @@ var draw = {
     document.body.onkeydown = function(e){
       if (e.ctrlKey && (e.which == 90 || e.keyCode == 90))
          draw.back();  //ctrl z
-      if (e.ctrlKey && (e.which == 89 || e.keyCode == 89))
+        else if (e.ctrlKey && (e.which == 89 || e.keyCode == 89))
          draw.forward(); //ctrl y
-      if (e.ctrlKey && (e.which == 69 || e.keyCode == 69))
-        draw.restoreLayer(); //ctrl e
-      draw.state.hotkeys.shift = true;
+        else if (e.ctrlKey && (e.which == 69 || e.keyCode == 69))
+          draw.restoreLayer(); //ctrl e
+        else if (e.ctrlKey && e.keyCode == 80)  //ctrl+p
+          draw.changeTool("Pencil");
+        else if (e.ctrlKey && e.keyCode == 83)  //ctrl+s
+          draw.changeTool("StrokeSquare");
+        else if (e.ctrlKey && e.keyCode == 70)  //ctrl+f
+            draw.changeTool("Fill");
+        else if (e.ctrlKey && e.keyCode == 73)  //ctrl+i
+            draw.changeTool("AddImageLayer");
+        else if (e.ctrlKey && e.keyCode == 76)  //ctrl+l
+            draw.changeTool("AddLayer");
+        else if (e.ctrlKey && e.keyCode == 72)  //ctrl+h
+            draw.changeTool("Hand");
+        else if (e.ctrlKey && e.keyCode == 85)  //ctrl+u
+            draw.changeTool("Cut");
+        else if (e.ctrlKey && e.keyCode == 74)  //ctrl+j
+            draw.changeTool("Ellips");
+        else if (e.ctrlKey && e.keyCode == 91)  //ctrl+q
+            draw.changeTool("Text");
+        else if (e.ctrlKey && e.keyCode == 71)  //ctrl+g
+            draw.changeTool("Eraser");
+        else if (e.ctrlKey && e.keyCode == 77)  //ctrl+m
+            draw.changeTool("Move");
+        else if (e.ctrlKey && e.keyCode == 78)  //ctrl+m
+            draw.changeTool("Pipette");
+        else if (e.ctrlKey && e.keyCode == 66)  //ctrl+b
+            draw.changeTool("Line");
+      if (e.shiftKey)
+        draw.state.hotkeys.shift = true;
     }
     document.body.onkeyup = function(e){
          draw.state.hotkeys.shift = false;
@@ -173,8 +210,18 @@ var draw = {
 
     }
     requestAnimationFrame(draw.render);
+
   },
-  changeTool : function(toolName){
+  changeTool : function(toolName,url=''){
+    close();
+    if (document.getElementById('tool-mini'))
+      document.getElementById('tool-mini').remove();
+    if (url != ''){
+      let t = new Image();
+      t.src = url;
+      t.id = 'tool-mini';
+      document.body.appendChild(t);
+    }
     if (document.getElementById('fileup'))
       document.getElementById('fileup').remove();
     draw.state.toolName = toolName;
@@ -253,7 +300,9 @@ var draw = {
     img.onload = function(){
       draw.state.paper = new Paper(this.width,this.height,draw.state);
       draw.state.paper.addLayer(0,0,this.width,this.height);
+      draw.state.paper.getLayer(0).name = "Шаблон";
       draw.state.paper.getLayer(0).getCtx().drawImage(this,0,0);
+      draw.state.paper.getLayer(0).save();
       draw.state.paper.changeActiveLayer(1);
       draw.calcScale(draw.state.paper.width, draw.state.paper.height, draw.state.view.width, draw.state.view.height);
     }
@@ -271,6 +320,7 @@ var draw = {
     draw.state.mainColorRGBA.a = 255;
     draw.state.mainColor = "rgb(" + r + ","+ g +","+ b +")";
     document.getElementById("mainColor").style.background = draw.state.mainColor;
+    close();
   },
   calcScale : function(w,h,w1,h1){
     var t = h;
@@ -330,4 +380,11 @@ document.body.onresize = function(){
   if (document.body.width > 480)
     draw.state.view.height = h-80;
   else draw.state.view.height = h-40;
+}
+setInterval(function(){
+   draw.state.paper.recalcLayerMiniatures();
+
+},1000);
+function close(){
+  document.getElementById('openToolBox').checked = false;
 }

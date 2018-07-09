@@ -1,4 +1,5 @@
 function renderShablones(){
+  document.getElementById('openToolBox').checked = false;
   var shablones = document.createElement('div');
   shablones.className = 'shablones';
   var close = document.createElement('div');

@@ -47,7 +47,7 @@ function Triangle(state, ctx){
      this.active = false;
      this.ctx.beginPath();
      this.ctx.moveTo(this.startX,this.startY);
-  
+
      this.ctx.lineTo(coords.x,this.startY);
      this.ctx.lineTo(Math.floor((coords.x+this.startX)/2),coords.y);
      this.ctx.lineTo(this.startX,this.startY);

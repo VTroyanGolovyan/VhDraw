@@ -1,5 +1,4 @@
 function Cut(state, ctx){
-
   this.lastUpdate = new Date().getTime();
   this.f = true;
 

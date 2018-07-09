@@ -93,7 +93,9 @@ function AddImageLayer(state, ctx){
      }
      if(width > 0 && height > 0)
        this.state.paper.addLayer(x,y,width,height);
-    var layer = draw.state.paper.getLayer(draw.state.activeLayer)
+    var layer = draw.state.paper.getLayer(draw.state.activeLayer);
+    layer.name = "Картинка";
+    draw.state.paper.renderLayersControllers('layers');
     layer.getCtx().drawImage(this.img,0,0,layer.width,layer.height);
     this.state.paper.getLayer(this.state.activeLayer).save();
   }

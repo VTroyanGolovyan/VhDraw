@@ -1,5 +1,4 @@
 function AddLayer(state, ctx){
-
   this.lastUpdate = new Date().getTime();
   this.f = true;
 
