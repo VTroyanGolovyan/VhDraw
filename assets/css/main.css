@@ -49,6 +49,61 @@ body{
   box-shadow: 0 0 3px black;
     padding: 5px;
 }
+#openDocu{
+  display: none;
+}
+.openDocu{
+  position: fixed;
+  width:40px;
+  height: calc(100% - 170px);
+  top: 125px;
+  left: 0;
+  z-index: 1000;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background: white;
+  box-shadow: 0 0 3px black;
+    padding: 5px;
+}
+.openDocu label{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  cursor: pointer;
+}
+.openDocu label img{
+  width:30px;
+  height: 30px;
+  transition: all 0.8s;
+    transform: rotate(180deg);
+}
+#openDocu:checked ~ .leftDocu{
+  left:50px;
+}
+#openDocu:checked ~ .openDocu label img{
+    transform: rotate(360deg);
+}
+#openDocu:checked ~ .openDocu{
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.leftDocu{
+  width: 15%;
+  top: 125px;
+  position: fixed;
+  z-index: 100;
+  background: white;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  left:-100%;
+  height: calc(100% - 170px);
+  box-shadow: 0 0 3px black;
+  overflow-y: scroll;
+  padding: 5px;
+  transition: all 0.8s;
+}
 .openLayers label{
   display: flex;
   flex-direction: column;
@@ -61,6 +116,9 @@ body{
   width:30px;
   height: 30px;
   transition: all 0.8s;
+}
+.leftDocu section p img{
+  width: 20px;
 }
 #openLayers:checked ~ .layers{
   right:50px;
@@ -541,15 +599,24 @@ option{
      line-height: 25px;
    }
   .layers{
-    width: calc(100% - 70px);
+    width: calc(100% - 140px);
     height: calc(100% - 120px);
     top: 80px;
     z-index: 800;
   }
-  .openLayers{
+  .leftDocu{
+    width: calc(100% - 140px);
+    height: calc(100% - 120px);
+    top: 80px;
+    z-index: 800;
+  }
+  .openLayers,.openDocu{
       height: calc(100% - 120px);
       top: 80px;
   }
+  .openDocu{
+      height: calc(100% - 220px);
+    }
   .mobileScale{
     display: flex;
     flex-direction: column;

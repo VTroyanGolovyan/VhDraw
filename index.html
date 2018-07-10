@@ -185,6 +185,111 @@
        </div>
        <div class="layers" id = "layers">
        </div>
+
+       <input type = "checkbox" id = "openDocu">
+       <div class = "openDocu">
+         <label title = "Меню слоев" for = "openDocu">
+            <img src = "assets/icon/open.png">
+            <img src = "assets/icon/blue-open.png">
+            <img src = "assets/icon/open.png">
+            <img src = "assets/icon/blue-open.png">
+            <img src = "assets/icon/open.png">
+         </label>
+       </div>
+       <div class = "leftDocu">
+         <section>
+           <h2>Панель цветов</h2>
+            <img  class = "centerImg" src = "assets/img/colorpanel.png">
+         </section>
+         <section>
+           <h2>Панель инструментов</h2>
+            <img class = "centerImg" src = "assets/img/toolbox.png">
+         </section>
+         <section>
+           <h2>Дополнительная панель</h2>
+            <img class = "centerImg" src = "assets/img/other.png">
+         </section>
+         <section>
+           <h2>Инструменты</h2>
+           <p>
+              1)<img src = "assets/icon/pencil.png"> Карандаш (ctrl+p) - предназначен для рисования линий.
+           </p>
+           <p>
+              2)<img src = "assets/icon/hand.png"> Рука (ctrl+h) - предназначена для пролистывания документа.
+           </p>
+           <p>
+              3)<img src = "assets/icon/stroke-square.png"> Прямоугольник (ctrl+s) - предназначен для рисования прямоугольников(shift - квадрат).
+           </p>
+           <p>
+              4)<img src = "assets/icon/triangle.png"> Треугольник - предназначен для рисования треугольников.
+           </p>
+           <p>
+              5)<img src = "assets/icon/ellips.png"> Эллипс (ctrl+j) - предназначен для рисования эллипсов(shift - круг).
+           </p>
+           <p>
+              6)<img src = "assets/icon/line.png"> Прямая (ctrl+b) - предназначен для рисования прямых линий.
+           </p>
+           <p>
+              7)<img src = "assets/icon/addlayer.png"> Слой (ctrl+l) - предназначен для создания слоев.
+           </p>
+           <p>
+              8)<img src = "assets/icon/add-image-layer.png"> Изображение (ctrl+i) - предназначен для вставки картинок(каждая картинка = новый слой).
+           </p>
+           <p>
+              9)<img src = "assets/icon/add-image-layer.png"> Ластик (ctrl+g) - предназначен для стирания нарисованых элементов.
+           </p>
+           <p>
+              10)<img src = "assets/icon/pipette.png"> Пипетка (ctrl+n) - предназначена для получения цвета точки.
+           </p>
+           <p>
+              11)<img src = "assets/icon/fill.png"> Заливка (ctrl+f) - предназначена заливки области.
+           </p>
+           <p>
+              12)<img src = "assets/icon/move.png"> Перемещение (ctrl+m) - предназначено для смещения слоев.
+           </p>
+           <p>
+              13)<img src = "assets/icon/cut.png"> Ножницы (ctrl+u) - предназначены для обрезки слоев.
+           </p>
+           <p>
+              14)<img src = "assets/icon/text.png"> Текст (ctrl+q) - предназначен для рисования текста.
+           </p>
+         </section>
+         <section>
+           <h2>Слои</h2>
+           <p>
+             Справа находиться панель слоев, в ней находяться миниатюры слоев их названия и кнопки управления.
+             Активный слой подсвечивается светло-синим цветом
+             Cлой можно Удалить(клавиша delete удаляет активный слой или кнопка с мусорным ведром)
+             Для востановления последнего удаленного слоя нужно нажать ctrl+e;
+           </p>
+           <p>
+             Также слои можно двигать
+           </p>
+           <p>
+             Каждый слой имеет историю изменений для возврата назад или вперед используйте стрелки справа вверху или ctrl+z, ctrl+y
+           </p>
+         </section>
+         <section>
+           <h2>Цвета</h2>
+           <p>
+              Сверху слева находиться панель цветов.
+              Также можно выбрать любой цвет. Для этого нужно нажать на большой квадрат цвета.
+           </p>
+         </section>
+         <section>
+           <h2>Еще немного</h2>
+           <p>
+             Можно перейти в полноэкранный режим нажав на кнопку справа вверху
+           </p>
+           <p>
+             Можно скачать изображение
+           </p>
+           <p>
+             Можно выбрать шаблон
+           </p>
+         </section>
+       </div>
+
        <div class = "mobileScale">
          <img onclick="draw.scale(0.08)" src = "assets/icon/plus.png">
          <img onclick="draw.scale(-0.08)" src = "assets/icon/minus.png">
@@ -195,109 +300,11 @@
        <div id = "docu" class = "shablones">
           <div class = "docu">
             <div onclick = "openbox('docu')" class = "selectFormat">Закрыть</div>
-            <section>
-              <h2>Панель цветов</h2>
-               <img  class = "centerImg" src = "assets/img/colorpanel.png">
-            </section>
-            <section>
-              <h2>Панель инструментов</h2>
-               <img class = "centerImg" src = "assets/img/toolbox.png">
-            </section>
-            <section>
-              <h2>Дополнительная панель</h2>
-               <img class = "centerImg" src = "assets/img/other.png">
-            </section>
-            <section>
-              <h2>Инструменты</h2>
-              <p>
-                 1)<img src = "assets/icon/pencil.png"> Карандаш (ctrl+p) - предназначен для рисования линий.
-              </p>
-              <p>
-                 2)<img src = "assets/icon/hand.png"> Рука (ctrl+h) - предназначена для пролистывания документа.
-              </p>
-              <p>
-                 3)<img src = "assets/icon/stroke-square.png"> Прямоугольник (ctrl+s) - предназначен для рисования прямоугольников(shift - квадрат).
-              </p>
-              <p>
-                 4)<img src = "assets/icon/triangle.png"> Треугольник - предназначен для рисования треугольников.
-              </p>
-              <p>
-                 5)<img src = "assets/icon/ellips.png"> Эллипс (ctrl+j) - предназначен для рисования эллипсов(shift - круг).
-              </p>
-              <p>
-                 6)<img src = "assets/icon/line.png"> Прямая (ctrl+b) - предназначен для рисования прямых линий.
-              </p>
-              <p>
-                 7)<img src = "assets/icon/addlayer.png"> Слой (ctrl+l) - предназначен для создания слоев.
-              </p>
-              <p>
-                 8)<img src = "assets/icon/add-image-layer.png"> Изображение (ctrl+i) - предназначен для вставки картинок(каждая картинка = новый слой).
-              </p>
-              <p>
-                 9)<img src = "assets/icon/add-image-layer.png"> Ластик (ctrl+g) - предназначен для стирания нарисованых элементов.
-              </p>
-              <p>
-                 10)<img src = "assets/icon/pipette.png"> Пипетка (ctrl+n) - предназначена для получения цвета точки.
-              </p>
-              <p>
-                 11)<img src = "assets/icon/fill.png"> Заливка (ctrl+f) - предназначена заливки области.
-              </p>
-              <p>
-                 12)<img src = "assets/icon/move.png"> Перемещение (ctrl+m) - предназначено для смещения слоев.
-              </p>
-              <p>
-                 13)<img src = "assets/icon/cut.png"> Ножницы (ctrl+u) - предназначены для обрезки слоев.
-              </p>
-              <p>
-                 14)<img src = "assets/icon/text.png"> Текст (ctrl+q) - предназначен для рисования текста.
-              </p>
-            </section>
-            <section>
-              <h2>Слои</h2>
-              <p>
-                Справа находиться панель слоев, в ней находяться миниатюры слоев их названия и кнопки управления.
-                Активный слой подсвечивается светло-синим цветом
-                Cлой можно Удалить(клавиша delete удаляет активный слой или кнопка с мусорным ведром)
-                Для востановления последнего удаленного слоя нужно нажать ctrl+e;
-              </p>
-              <p>
-                Также слои можно двигать
-              </p>
-              <p>
-                Каждый слой имеет историю изменений для возврата назад или вперед используйте стрелки справа вверху или ctrl+z, ctrl+y
-              </p>
-            </section>
-            <section>
-              <h2>Цвета</h2>
-              <p>
-                 Сверху слева находиться панель цветов.
-                 Также можно выбрать любой цвет. Для этого нужно нажать на большой квадрат цвета.
-              </p>
-            </section>
-            <section>
-              <h2>Еще немного</h2>
-              <p>
-                Можно перейти в полноэкранный режим нажав на кнопку справа вверху
-              </p>
-              <p>
-                Можно скачать изображение
-              </p>
-              <p>
-                Можно выбрать шаблон
-              </p>
-            </section>
+
 
           </div>
        </div>
-       <script>
-          function openbox(id){
-            var el = document.getElementById(id);
-            if (el.style.display == "flex")
-              el.style.display = "none";
-            else el.style.display = "flex";
-          }
-
-       </script>
+  
        <!-- Модули -->
        <script src = "assets/js/modules/layer.js"></script>
        <script src = "assets/js/modules/paper.js"></script>

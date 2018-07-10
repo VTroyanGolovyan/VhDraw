@@ -185,13 +185,6 @@ function Paper(width,height,state){
       }
       container.appendChild(layer);
     }
-    var y = document.createElement('div');
-    y.innerHTML = 'Помощь';
-    y.className = 'buttonL2';
-    y.onclick = function(){
-      openbox('docu');
-    }
-    container.appendChild(y);
   }
   this.restoreLayer = function(layer){
     this.layers.push(layer);
