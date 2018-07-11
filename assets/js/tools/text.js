@@ -11,25 +11,26 @@ function Text(state, ctx){
   this.startvY = 0;
   this.x = 0;
   this.y = 0;
-
+  state.mute = true;
   var cont = document.createElement('div');
   var select = document.createElement("div");
   select.innerHTML = 'Введите текст';
-  select.className = 'selectFormat';
-  cont.className = 'shablones';
+  select.className = 'select-format';
+  cont.className = 'dark-mask';
   var textInput = document.createElement("div");
-  textInput.className = 'downloadContainer';
+  textInput.className = 'download-container';
   var input = document.createElement('input');
-  input.className = 'textInput';
+  input.className = 'text-input';
   textInput.appendChild(select);
   cont.appendChild(textInput);
   textInput.appendChild(input);
   var buttonOk = document.createElement('div');
-  buttonOk.className = 'selectFormat';
+  buttonOk.className = 'select-format';
   buttonOk.innerHTML = 'OK';
   textInput.appendChild(buttonOk);
   buttonOk.onclick = function(){
     cont.remove();
+    state.mute = false;
   }
   this.text = "";
   input.setAttribute('type','text');

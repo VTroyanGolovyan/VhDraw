@@ -3,84 +3,90 @@
    <head>
      <meta charset="utf-8">
      <meta charset="utf-8"  name="viewport" content="width=device-width, user-scalable=no">
-     <link rel = "stylesheet" type = "text/css" href = "assets/css/main.css">
+     <link rel = "stylesheet" type = "text/css" href = "assets/css/main.css?16">
      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
    </head>
    <body>
-       <div class = "mobileTop">
-         <label for = "openToolBox">
-           <img src = "assets/icon/menu.png">
-         </label>
-         <div class = "mobile-history">
-           <img title="Назад" onclick="draw.back()" src = "assets/icon/left-arrow.png">
-           <img title="Вперед" onclick="draw.forward()" src = "assets/icon/right-arrow.png">
-           <label for = "FStogle2" class = "full-screen2">
-             <div  onclick="toggleFullScreen(document.body)">
-               <input id = "FStogle2" type = "checkbox">
-               <img title = "Открыть полноекранный режим" id = "openFS2" src = "assets/icon/open-full-screen.png">
-               <img title = "Закрыть полноекранный режим" id = "exitFS2" src = "assets/icon/exit-full-screen.png">
-             </div>
+       <!-- Шапка для мобилок -->
+       <div class = "mobile-top">
+           <label for = "open-toolbox">
+               <img src = "assets/icon/menu.png">
            </label>
-           <img src = "assets/icon/hand.png" onclick="draw.changeTool('Hand')">
+           <div class = "mobile-history">
+
+               <img onclick="renderDownload()" src = "assets/icon/download.png">
+               <img onclick="renderShablones()" src = "assets/icon/layout.png">
+               <img title="Назад" onclick="draw.back()" src = "assets/icon/left-arrow.png">
+               <img title="Вперед" onclick="draw.forward()" src = "assets/icon/right-arrow.png">
+               <label for = "FStogle2" class = "full-screen2">
+                   <div  onclick="toggleFullScreen(document.body)">
+                       <input id = "FStogle2" type = "checkbox">
+                       <img title = "Открыть полноекранный режим" id = "openFS2" src = "assets/icon/open-full-screen.png">
+                       <img title = "Закрыть полноекранный режим" id = "exitFS2" src = "assets/icon/exit-full-screen.png">
+                   </div>
+               </label>
+               <img src = "assets/icon/hand.png" onclick="draw.changeTool('Hand')">
          </div>
        </div>
-       <input id = "openToolBox" type="checkbox">
+       <!-- панель с Инструментами и со всем всем-->
+       <input id = "open-toolbox" type="checkbox">
        <div class = "toolbox">
-
-            <div id = "palette">
-              <input type="checkbox" id = "toogle">
-              <div id = "colorColection">
-                <div class = "colorLine">
-                    <div onclick = "draw.changeColorRGB(0,0,0)" class =  "color" style="background:rgb(0,0,0)"></div>
-                    <div onclick = "draw.changeColorRGB(178,34,34)" class =  "color" style="background:rgb(178,34,34)"></div>
-                    <div onclick = "draw.changeColorRGB(255,0,0)" class =  "color" style="background:rgb(255,0,0)"></div>
-                    <div onclick = "draw.changeColorRGB(255,69,0)" class =  "color" style="background:rgb(255,69,0)"></div>
-                    <div onclick = "draw.changeColorRGB(250,128,114)" class =  "color" style="background:rgb(250,128,114)"></div>
-                    <div onclick = "draw.changeColorRGB(255,255,0)" class =  "color" style="background:rgb(255,255,0)"></div>
-                    <div onclick = "draw.changeColorRGB(0,255,0)" class =  "color" style="background:rgb(0,255,0)"></div>
-                    <div onclick = "draw.changeColorRGB(50,205,50)" class =  "color" style="background:rgb(50,205,50)"></div>
-                </div>
-
-                <div class = "colorLine">
-                    <div onclick = "draw.changeColorRGB(34,139,34)" class =  "color" style="background:rgb(34,139,34)"></div>
-
-                    <div onclick = "draw.changeColorRGB(148,0,211)" class =  "color" style="background:rgb(148,0,211)"></div>
-                    <div onclick = "draw.changeColorRGB(139,10,80)" class =  "color" style="background:rgb(139,10,80)"></div>
-
-                    <div onclick = "draw.changeColorRGB(0,0,255)" class =  "color" style="background:rgb(0,0,255)"></div>
-                    <div onclick = "draw.changeColorRGB(0,0,205)" class =  "color" style="background:rgb(0,0,205)"></div>
-                    <div onclick = "draw.changeColorRGB(0,191,255)" class =  "color" style="background:rgb(0,191,255)"></div>
-                    <div onclick = "draw.changeColorRGB(0,255,255)" class =  "color" style="background:rgb(0,255,255)"></div>
-                   <div onclick = "draw.changeColorRGB(255,255,255)" class =  "color" style="background:rgb(255,255,255)"></div>
-                </div>
+            <!-- палитра -->
+            <div class = "pallete" id = "palette">
+                <input type="checkbox" id = "toogle-palette">
+                <div id = "color-colection" class = "color-colection">
+                    <div class = "color-line">
+                        <div onclick = "draw.changeColorRGB(0,0,0)" class =  "color" style="background:rgb(0,0,0)"></div>
+                        <div onclick = "draw.changeColorRGB(139,10,80)" class =  "color" style="background:rgb(139,10,80)"></div>
+                        <div onclick = "draw.changeColorRGB(178,34,34)" class =  "color" style="background:rgb(178,34,34)"></div>
+                        <div onclick = "draw.changeColorRGB(255,0,0)" class =  "color" style="background:rgb(255,0,0)"></div>
+                        <div onclick = "draw.changeColorRGB(255,69,0)" class =  "color limited" style="background:rgb(255,69,0)"></div>
+                        <div onclick = "draw.changeColorRGB(250,128,114)" class =  "color" style="background:rgb(250,128,114)"></div>
+                        <div onclick = "draw.changeColorRGB(215,215,0)" class =  "color" style="background:rgb(215,215,0)"></div>
+                        <div onclick = "draw.changeColorRGB(255,255,0)" class =  "color" style="background:rgb(255,255,0)"></div>
+                        <div onclick = "draw.changeColorRGB(173,255,47)" class =  "color" style="background:rgb(173,255,47)"></div>
+                        <div onclick = "draw.changeColorRGB(0,255,0)" class =  "color" style="background:rgb(0,255,0)"></div>
+                        <div onclick = "draw.changeColorRGB(50,205,50)" class =  "color limited" style="background:rgb(50,205,50)"></div>
+                        <div onclick = "draw.changeColorRGB(34,139,34)" class =  "color limited" style="background:rgb(34,139,34)"></div>
+                    </div>
+                    <div class = "color-line">
+                        <div onclick = "draw.changeColorRGB(255,255,255)" class =  "color" style="background:rgb(255, 255, 255)"></div>
+                        <div onclick = "draw.changeColorRGB(255, 0, 255)" class =  "color" style="background:rgb(255, 0, 255)"></div>
+                        <div onclick = "draw.changeColorRGB(75, 0, 130)" class =  "color" style="background:rgb(75, 0, 130)"></div>
+                        <div onclick = "draw.changeColorRGB(0, 0, 128)" class =  "color" style="background:rgb(0, 0, 128)"></div>
+                        <div onclick = "draw.changeColorRGB(0, 0, 255)" class =  "color limited" style="background:rgb(0, 0, 255)"></div>
+                        <div onclick = "draw.changeColorRGB(65, 105, 225)" class =  "color" style="background:rgb(65, 105, 225)"></div>
+                        <div onclick = "draw.changeColorRGB(0, 191, 255)" class =  "color" style="background:rgb(0, 191, 255)"></div>
+                        <div onclick = "draw.changeColorRGB(0, 255, 255)" class =  "color" style="background:rgb(0, 255, 255)"></div>
+                        <div onclick = "draw.changeColorRGB(32, 178, 170)" class =  "color" style="background:rgb(32, 178, 170)"></div>
+                        <div onclick = "draw.changeColorRGB(0, 128, 128)" class =  "color" style="background:rgb(0, 128, 128)"></div>
+                        <div onclick = "draw.changeColorRGB(85, 107, 47)" class =  "color limited" style="background:rgb(85, 107, 47)"></div>
+                        <div onclick = "draw.changeColorRGB(107, 142, 35)" class =  "color limited" style="background:rgb(107, 142, 35)"></div>
+                    </div>
               </div>
-              <div id = "colorPicker" class = "colorPicker">
-                 <div class = "checkline">
-                    <input onchange="draw.changeColor(1,1)" id = "r" min = "0" max = "255" type = "range">
-                    <div class = "rgbdiv">
-                       <span>R:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "r1" min="0" max="255">
-                    </div>
-                 </div>
-                 <div class = "checkline">
-                    <input  onchange="draw.changeColor(1,1)" id = "g" min = "0" max = "255" type = "range">
-                    <div class = "rgbdiv">
-                       <span>G:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "g1" min="0" max="255">
-                    </div>
-                 </div>
-                 <div class = "checkline">
-                    <input onchange="draw.changeColor(1,1)" id = "b" min = "0" max = "255" type = "range">
-                    <div class = "rgbdiv">
-                       <span>B:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "b1" min="0" max="255">
-                    </div>
-                 </div>
+              <div id = "color-picker" class = "color-picker">
+                   <div class = "select-line">
+                       <input class = "color-range" onchange="draw.changeColor(1,1)" id = "r" min = "0" max = "255" type = "range">
+                       <div class = "rgb-div">
+                           <span>R:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "r1" min="0" max="255">
+                       </div>
+                   </div>
+                   <div class = "select-line">
+                       <input class = "color-range" onchange="draw.changeColor(1,1)" id = "g" min = "0" max = "255" type = "range">
+                       <div class = "rgb-div">
+                           <span>G:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "g1" min="0" max="255">
+                       </div>
+                   </div>
+                   <div class = "select-line">
+                       <input class = "color-range" onchange="draw.changeColor(1,1)" id = "b" min = "0" max = "255" type = "range">
+                       <div class = "rgb-div">
+                           <span>B:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "b1" min="0" max="255">
+                       </div>
+                   </div>
               </div>
-              <label  for = "toogle" id = "mainColor">
-                main
-              </label>
+              <label  class = "main-color" for = "toogle-palette" id = "main-color"></label>
             </div>
-
             <div class = "toollist">
-
                    <div title = "карандаш" onclick="draw.changeTool('Pencil','')">
                        <img src = "assets/icon/pencil.png">
                    </div>
@@ -108,7 +114,6 @@
                    <div title = "Ножницы" onclick="draw.changeTool('Cut','assets/icon/cut.png')">
                        <img src = "assets/icon/cut.png">
                    </div>
-
                    <div title = "Текст" onclick="draw.changeTool('Text','assets/icon/text.png')">
                        <img src = "assets/icon/text.png">
                    </div>
@@ -133,17 +138,10 @@
                    <div title = "Прямая" onclick="draw.changeTool('Line','')">
                       <img src = "assets/icon/line.png">
                    </div>
-
             </div>
-            <label for = "FStogle" class = "full-screen">
-              <div  onclick="toggleFullScreen(document.body)">
-                <input id = "FStogle" type = "checkbox">
-                <img title = "Открыть полноекранный режим" id = "openFS" src = "assets/icon/open-full-screen.png">
-                <img title = "Закрыть полноекранный режим" id = "exitFS" src = "assets/icon/exit-full-screen.png">
-              </div>
-            </label>
+
             <div class = "settings">
-              <div class = "lineSelect">
+              <div class = "line-select">
                 <span>Ширина:</span>
                 <select title="Толщина линий" onchange = "draw.changeLineWidth()" id = "lw">
                   <option value="1">1</option>
@@ -164,101 +162,107 @@
                 </select>
               </div>
               <div class = "history">
-                  <img title="Назад" onclick="draw.back()" src = "assets/icon/left-arrow.png">
-                  <img title="Вперед" onclick="draw.forward()" src = "assets/icon/right-arrow.png">
+                <div onclick="draw.back()">
+                  <img title="Назад" src = "assets/icon/left-arrow.png">
+                </div>
+                <div onclick="draw.forward()">
+                  <img title="Вперед" src = "assets/icon/right-arrow.png">
+                </div>
               </div>
             </div>
-            <div class = "buttons">
-              <div class = "button" onclick="renderDownload()">скачать</div>
-              <div class = "button" onclick="renderShablones()">шаблон</div>
+
+            <label for = "full-screen-togle" class = "full-screen">
+              <div  onclick="toggleFullScreen(document.body)">
+                <input id = "full-screen-togle" type = "checkbox">
+                <img title = "Открыть полноекранный режим" id = "open-full-screen" src = "assets/icon/open-full-screen.png">
+                <img title = "Закрыть полноекранный режим" id = "exit-full-screen" src = "assets/icon/exit-full-screen.png">
+              </div>
+            </label>
+            <div class = "download-button" onclick="renderDownload()">
+                <img src = "assets/icon/download.png">
             </div>
+            <div class = "load-shablone-button" onclick="renderShablones()">
+                <img src = "assets/icon/layout.png">
+            </div>
+
        </div>
-       <input type = "checkbox" id = "openLayers">
-       <div class = "openLayers">
-         <label title = "Меню слоев" for = "openLayers">
+
+       <input type = "checkbox" id = "open-layers">
+       <div class = "open-layers">
+         <label title = "Меню слоев" for = "open-layers">
             <img src = "assets/icon/open.png">
-            <img src = "assets/icon/blue-open.png">
             <img src = "assets/icon/open.png">
-            <img src = "assets/icon/blue-open.png">
+            <img src = "assets/icon/open.png">
+            <img src = "assets/icon/open.png">
             <img src = "assets/icon/open.png">
          </label>
        </div>
+
        <div class="layers" id = "layers">
        </div>
 
-       <input type = "checkbox" id = "openDocu">
-       <div class = "openDocu">
-         <label title = "Меню слоев" for = "openDocu">
+       <input type = "checkbox" id = "open-documentation">
+       <div class = "open-documentation">
+         <label title = "Документация" for = "open-documentation">
+            <img src = "assets/icon/open.png"  class = "desktop">
             <img src = "assets/icon/open.png">
-            <img src = "assets/icon/blue-open.png">
             <img src = "assets/icon/open.png">
-            <img src = "assets/icon/blue-open.png">
+            <img src = "assets/icon/open.png">
             <img src = "assets/icon/open.png">
          </label>
        </div>
-       <div class = "leftDocu">
+
+       <div class = "documentation">
          <section>
-           <h2>Панель цветов</h2>
-            <img  class = "centerImg" src = "assets/img/colorpanel.png">
-         </section>
-         <section>
-           <h2>Панель инструментов</h2>
-            <img class = "centerImg" src = "assets/img/toolbox.png">
-         </section>
-         <section>
-           <h2>Дополнительная панель</h2>
-            <img class = "centerImg" src = "assets/img/other.png">
-         </section>
-         <section>
-           <h2>Инструменты</h2>
+           <h3>Инструменты</h3>
            <p>
-              1)<img src = "assets/icon/pencil.png"> Карандаш (ctrl+p) - предназначен для рисования линий.
+              1)<img src = "assets/icon/pencil.png"> Карандаш (p) - предназначен для рисования линий.
            </p>
            <p>
-              2)<img src = "assets/icon/hand.png"> Рука (ctrl+h) - предназначена для пролистывания документа.
+              2)<img src = "assets/icon/hand.png"> Рука (h) - предназначена для пролистывания документа.
            </p>
            <p>
-              3)<img src = "assets/icon/stroke-square.png"> Прямоугольник (ctrl+s) - предназначен для рисования прямоугольников(shift - квадрат).
+              3)<img src = "assets/icon/stroke-square.png"> Прямоугольник (s) - предназначен для рисования прямоугольников(shift - квадрат).
            </p>
            <p>
               4)<img src = "assets/icon/triangle.png"> Треугольник - предназначен для рисования треугольников.
            </p>
            <p>
-              5)<img src = "assets/icon/ellips.png"> Эллипс (ctrl+j) - предназначен для рисования эллипсов(shift - круг).
+              5)<img src = "assets/icon/ellips.png"> Эллипс (j) - предназначен для рисования эллипсов(shift - круг).
            </p>
            <p>
-              6)<img src = "assets/icon/line.png"> Прямая (ctrl+b) - предназначен для рисования прямых линий.
+              6)<img src = "assets/icon/line.png"> Прямая (b) - предназначен для рисования прямых линий.
            </p>
            <p>
-              7)<img src = "assets/icon/addlayer.png"> Слой (ctrl+l) - предназначен для создания слоев.
+              7)<img src = "assets/icon/addlayer.png"> Слой (l) - предназначен для создания слоев.
            </p>
            <p>
-              8)<img src = "assets/icon/add-image-layer.png"> Изображение (ctrl+i) - предназначен для вставки картинок(каждая картинка = новый слой).
+              8)<img src = "assets/icon/add-image-layer.png"> Изображение (i) - предназначен для вставки картинок(каждая картинка = новый слой).
            </p>
            <p>
-              9)<img src = "assets/icon/add-image-layer.png"> Ластик (ctrl+g) - предназначен для стирания нарисованых элементов.
+              9)<img src = "assets/icon/add-image-layer.png"> Ластик (g) - предназначен для стирания нарисованых элементов.
            </p>
            <p>
-              10)<img src = "assets/icon/pipette.png"> Пипетка (ctrl+n) - предназначена для получения цвета точки.
+              10)<img src = "assets/icon/pipette.png"> Пипетка (n) - предназначена для получения цвета точки.
            </p>
            <p>
-              11)<img src = "assets/icon/fill.png"> Заливка (ctrl+f) - предназначена заливки области.
+              11)<img src = "assets/icon/fill.png"> Заливка (f) - предназначена заливки области.
            </p>
            <p>
-              12)<img src = "assets/icon/move.png"> Перемещение (ctrl+m) - предназначено для смещения слоев.
+              12)<img src = "assets/icon/move.png"> Перемещение (m) - предназначено для смещения слоев.
            </p>
            <p>
-              13)<img src = "assets/icon/cut.png"> Ножницы (ctrl+u) - предназначены для обрезки слоев.
+              13)<img src = "assets/icon/cut.png"> Ножницы (u) - предназначены для обрезки слоев.
            </p>
            <p>
-              14)<img src = "assets/icon/text.png"> Текст (ctrl+q) - предназначен для рисования текста.
+              14)<img src = "assets/icon/text.png"> Текст (q) - предназначен для рисования текста.
            </p>
          </section>
          <section>
-           <h2>Слои</h2>
+           <h3>Слои</h3>
            <p>
              Справа находиться панель слоев, в ней находяться миниатюры слоев их названия и кнопки управления.
-             Активный слой подсвечивается светло-синим цветом
+             Активный слой подсвечивается ,белым контуром на панели слоев
              Cлой можно Удалить(клавиша delete удаляет активный слой или кнопка с мусорным ведром)
              Для востановления последнего удаленного слоя нужно нажать ctrl+e;
            </p>
@@ -270,14 +274,14 @@
            </p>
          </section>
          <section>
-           <h2>Цвета</h2>
+           <h3>Цвета</h3>
            <p>
               Сверху слева находиться панель цветов.
               Также можно выбрать любой цвет. Для этого нужно нажать на большой квадрат цвета.
            </p>
          </section>
          <section>
-           <h2>Еще немного</h2>
+           <h3>Еще немного</h3>
            <p>
              Можно перейти в полноэкранный режим нажав на кнопку справа вверху
            </p>
@@ -291,20 +295,16 @@
        </div>
 
        <div class = "mobileScale">
-         <img onclick="draw.scale(0.08)" src = "assets/icon/plus.png">
-         <img onclick="draw.scale(-0.08)" src = "assets/icon/minus.png">
+         <div onclick="draw.scale(0.08)">
+           <img src = "assets/icon/plus.png">
+         </div>
+         <div onclick="draw.scale(-0.08)">
+           <img src = "assets/icon/minus.png">
+         </div>
        </div>
        <div id = "draw-area" class = "draw-area">
        </div>
 
-       <div id = "docu" class = "shablones">
-          <div class = "docu">
-            <div onclick = "openbox('docu')" class = "selectFormat">Закрыть</div>
-
-
-          </div>
-       </div>
-  
        <!-- Модули -->
        <script src = "assets/js/modules/layer.js"></script>
        <script src = "assets/js/modules/paper.js"></script>

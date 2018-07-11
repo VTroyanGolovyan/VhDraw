@@ -107,7 +107,7 @@ function Paper(width,height,state){
     container.innerHTML = "";
     var add = document.createElement('div');
     add.innerHTML = 'Добавить слой';
-    add.className = 'buttonL';
+    add.className = 'add-layer-botton';
     var t = this;
     add.onclick = function(){
       t.addLayer(0,0,t.width,t.height);
@@ -117,7 +117,7 @@ function Paper(width,height,state){
       let layer = document.createElement('div');
       let name = document.createElement("div");
       name.innerHTML = this.layers[i].name;
-      name.className = 'layerName';
+      name.className = 'layer-name';
       if (this.state.activeLayer == i){
         layer.className ="layer active";
       }else layer.className ="layer";
@@ -144,7 +144,7 @@ function Paper(width,height,state){
       }
       bottomButton.src = "assets/icon/bottom.png";
       var topLayerContainer = document.createElement('div');
-      topLayerContainer.className = 'topLayerContainer';
+      topLayerContainer.className = 'top-layer-container';
 
       topLayerContainer.appendChild(input);
 
@@ -161,8 +161,10 @@ function Paper(width,height,state){
       buttoncont.appendChild(bottomButton);
       topLayerContainer.appendChild(buttoncont);
       layer.appendChild(topLayerContainer);
-      layer.appendChild(img);
-
+      var imgCont = document.createElement('div');
+      imgCont.className = 'miniatura-container';
+      imgCont.appendChild(img);
+      layer.appendChild(imgCont);
       input.onchange = function(){
         t.getLayer(this.getAttribute("data-id")).changeVisible();
       }

@@ -9,6 +9,7 @@ var draw = {
       b:0,
       a:255
     },
+    mute:false,
     secondColor : "white",
     view : "",
     viewctx : "",
@@ -76,9 +77,9 @@ var draw = {
     draw.state.paper.changeActiveLayer(1);
     draw.state.view = document.createElement("canvas");
     draw.state.view.width = w;
-    if (document.body.width > 480)
+    if (document.body.width > 900)
       draw.state.view.height = h-80;
-    else draw.state.view.height = h-40;
+    else draw.state.view.height = h-45;
     draw.state.viewctx = draw.state.view.getContext("2d");
 
     draw.state.area.x = 0;
@@ -157,31 +158,31 @@ var draw = {
          draw.forward(); //ctrl y
         else if (e.ctrlKey && (e.which == 69 || e.keyCode == 69))
           draw.restoreLayer(); //ctrl e
-        else if (e.ctrlKey && e.keyCode == 80)  //ctrl+p
+        else if (e.keyCode == 80 && !draw.state.mute)  //p
           draw.changeTool("Pencil");
-        else if (e.ctrlKey && e.keyCode == 83)  //ctrl+s
+        else if (e.keyCode == 83 && !draw.state.mute)  //s
           draw.changeTool("StrokeSquare");
-        else if (e.ctrlKey && e.keyCode == 70)  //ctrl+f
+        else if (e.keyCode == 70 && !draw.state.mute)  //f
             draw.changeTool("Fill");
-        else if (e.ctrlKey && e.keyCode == 73)  //ctrl+i
+        else if (e.keyCode == 73 && !draw.state.mute)  //i
             draw.changeTool("AddImageLayer");
-        else if (e.ctrlKey && e.keyCode == 76)  //ctrl+l
+        else if (e.keyCode == 76 && !draw.state.mute)  //l
             draw.changeTool("AddLayer");
-        else if (e.ctrlKey && e.keyCode == 72)  //ctrl+h
+        else if (e.keyCode == 72 && !draw.state.mute)  //h
             draw.changeTool("Hand");
-        else if (e.ctrlKey && e.keyCode == 85)  //ctrl+u
+        else if (e.keyCode == 85 && !draw.state.mute)  //u
             draw.changeTool("Cut");
-        else if (e.ctrlKey && e.keyCode == 74)  //ctrl+j
+        else if (e.keyCode == 74 && !draw.state.mute)  //j
             draw.changeTool("Ellips");
-        else if (e.ctrlKey && e.keyCode == 91)  //ctrl+q
+        else if (e.keyCode == 81 && !draw.state.mute)  //q
             draw.changeTool("Text");
-        else if (e.ctrlKey && e.keyCode == 71)  //ctrl+g
+        else if (e.keyCode == 71 && !draw.state.mute)  //g
             draw.changeTool("Eraser");
-        else if (e.ctrlKey && e.keyCode == 77)  //ctrl+m
+        else if (e.keyCode == 77 && !draw.state.mute)  //m
             draw.changeTool("Move");
-        else if (e.ctrlKey && e.keyCode == 78)  //ctrl+m
+        else if (e.keyCode == 78 && !draw.state.mute)  //n
             draw.changeTool("Pipette");
-        else if (e.ctrlKey && e.keyCode == 66)  //ctrl+b
+        else if (e.keyCode == 66 && !draw.state.mute)  //b
             draw.changeTool("Line");
       if (e.shiftKey)
         draw.state.hotkeys.shift = true;
@@ -194,7 +195,7 @@ var draw = {
   },
   render : function(){
     try{
-        draw.state.viewctx.fillStyle = "#d4d4d4";
+        draw.state.viewctx.fillStyle = "#191919";
         draw.state.viewctx.clearRect(0,0,draw.state.view.width,draw.state.view.height);
         draw.state.viewctx.fillRect(0,0,draw.state.view.width,draw.state.view.height);
         draw.state.viewctx.clearRect(-Math.floor(draw.state.area.x*draw.state.area.scale),
@@ -275,7 +276,7 @@ var draw = {
       var b = document.getElementById("b").value;
       document.getElementById("b1").value = document.getElementById("b").value;
       draw.state.mainColor = "rgb(" + r + ","+ g +","+ b +")";
-      document.getElementById("mainColor").style.background = draw.state.mainColor;
+      document.getElementById("main-color").style.background = draw.state.mainColor;
     }else{
       var r = document.getElementById("r1").value;
       document.getElementById("r").value = document.getElementById("r1").value;
@@ -284,7 +285,7 @@ var draw = {
       var b = document.getElementById("b1").value;
       document.getElementById("b").value = document.getElementById("b1").value;
       draw.state.mainColor = "rgb(" + r + ","+ g +","+ b +")";
-      document.getElementById("mainColor").style.background = draw.state.mainColor;
+      document.getElementById("main-color").style.background = draw.state.mainColor;
     }
     draw.state.mainColorRGBA.r = r;
     draw.state.mainColorRGBA.b = b;
@@ -319,7 +320,7 @@ var draw = {
     draw.state.mainColorRGBA.g = g;
     draw.state.mainColorRGBA.a = 255;
     draw.state.mainColor = "rgb(" + r + ","+ g +","+ b +")";
-    document.getElementById("mainColor").style.background = draw.state.mainColor;
+    document.getElementById("main-color").style.background = draw.state.mainColor;
     close();
   },
   calcScale : function(w,h,w1,h1){
@@ -377,14 +378,14 @@ document.body.onresize = function(){
   var w =  document.body.clientWidth;
   var h =  document.documentElement.clientHeight|| document.body.clientHeight;
   draw.state.view.width = w;
-  if (document.body.width > 480)
+  if (document.body.width > 900)
     draw.state.view.height = h-80;
-  else draw.state.view.height = h-40;
+  else draw.state.view.height = h-45;
 }
 setInterval(function(){
    draw.state.paper.recalcLayerMiniatures();
 
 },1000);
 function close(){
-  document.getElementById('openToolBox').checked = false;
+  document.getElementById('open-toolbox').checked = false;
 }

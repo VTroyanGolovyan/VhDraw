@@ -111,6 +111,9 @@ function Layer(x,y,width,height,name = ""){
     w = Math.floor(w);
     h = Math.floor(h);
     this.miniatura.width = this.miniatura.width;
+    this.minctx.fillStyle = '#191919';
+    this.minctx.fillRect(0,0,this.miniatura.width,this.miniatura.height);
+    this.minctx.clearRect(-x,-y,w,h);
     this.minctx.drawImage(this.canvas,0,0,this.canvas.width,this.canvas.height,-x,-y,w,h);
   }
   this.getMiniatura = function(){
