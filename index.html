@@ -3,7 +3,7 @@
    <head>
      <meta charset="utf-8">
      <meta charset="utf-8"  name="viewport" content="width=device-width, user-scalable=no">
-     <link rel = "stylesheet" type = "text/css" href = "assets/css/main.css?16">
+     <link rel = "stylesheet" type = "text/css" href = "assets/css/main.css?165">
      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
    </head>
    <body>
@@ -84,7 +84,7 @@
                        </div>
                    </div>
               </div>
-              <label  class = "main-color" for = "toogle-palette" id = "main-color"></label>
+              <label  class = "main-color" id = "main-color"><input id = 'color-input' oninput="draw.colorInput()"type = 'color'></label>
             </div>
             <div class = "toollist">
                    <div title = "карандаш" onclick="draw.changeTool('Pencil','')">
@@ -101,6 +101,9 @@
                    </div>
                    <div title = "Перемещение" onclick="draw.changeTool('Move','')">
                        <img src = "assets/icon/move.png">
+                   </div>
+                   <div title = "Растяжка" onclick="draw.changeTool('Scale','')">
+                       <img src = "assets/icon/scale.png">
                    </div>
                    <div title = "Ластик" onclick="draw.changeTool('Eraser','')">
                        <img src = "assets/icon/eraser.png">
@@ -190,11 +193,11 @@
        <input type = "checkbox" id = "open-layers">
        <div class = "open-layers">
          <label title = "Меню слоев" for = "open-layers">
-            <img src = "assets/icon/open.png">
-            <img src = "assets/icon/open.png">
-            <img src = "assets/icon/open.png">
-            <img src = "assets/icon/open.png">
-            <img src = "assets/icon/open.png">
+           <img src = "assets/icon/open.png"  class = "hidden-mobile">
+           <img src = "assets/icon/open.png" class = "hidden-mobile">
+           <img src = "assets/icon/open.png" class = "hidden-mobile">
+           <img src = "assets/icon/open.png" class = "hidden-mobile">
+           <img src = "assets/icon/open.png">
          </label>
        </div>
 
@@ -204,10 +207,10 @@
        <input type = "checkbox" id = "open-documentation">
        <div class = "open-documentation">
          <label title = "Документация" for = "open-documentation">
-            <img src = "assets/icon/open.png"  class = "desktop">
-            <img src = "assets/icon/open.png">
-            <img src = "assets/icon/open.png">
-            <img src = "assets/icon/open.png">
+            <img src = "assets/icon/open.png"  class = "desktop hidden-mobile">
+            <img src = "assets/icon/open.png" class = "hidden-mobile">
+            <img src = "assets/icon/open.png" class = "hidden-mobile">
+            <img src = "assets/icon/open.png" class = "hidden-mobile">
             <img src = "assets/icon/open.png">
          </label>
        </div>
@@ -327,6 +330,7 @@
        <script src = "assets/js/tools/move.js"></script>
        <script src = "assets/js/tools/cut.js"></script>
        <script src = "assets/js/tools/text.js"></script>
+       <script src = "assets/js/tools/scale.js"></script>
        <!-- Ядро -->
        <script src = "assets/js/draw.js"></script>
    </body>

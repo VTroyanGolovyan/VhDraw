@@ -15,6 +15,17 @@ function Layer(x,y,width,height,name = ""){
     this.x += dx;
     this.y += dy;
   }
+  this.scale = function(width,height){
+    var scaled = document.createElement('canvas');
+    scaled.width = width;
+    scaled.height = height;
+    var scaledctx = scaled.getContext('2d');
+    scaledctx.drawImage(this.canvas,0,0,this.width,this.height,0,0,width,height);
+    this.canvas = scaled;
+    this.ctx = scaledctx;
+    this.width = width;
+    this.height = height;
+  }
   this.save = function(){
     var savePoint = document.createElement('canvas');
     savePoint.width = this.width;

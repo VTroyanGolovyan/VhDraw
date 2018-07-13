@@ -80,9 +80,37 @@ body{
   width: 35px;
   height: 35px;
   margin: 5px;
+  overflow: hidden;
   background: black;
   cursor: pointer;
   font-size: 0px;
+}
+.main-color input{
+  width: 400px;
+  margin: -5px -5px 0 -5px;
+  padding: 0;
+  height: 400px;
+  opacity: 0;
+  cursor:pointer;
+}
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+  outline: none;
+	width: 50px;
+	height: 50px;
+
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+  border: none;
+  width: 0;
+    opacity: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+  width: 0;
+    opacity: 0;
 }
 .color-picker{
   width: 40%;
@@ -579,6 +607,9 @@ input::-webkit-inner-spin-button {
   border: none;
 
 }
+.draw-area{
+  background: url("../img/glue.png");
+}
 @media all and (min-width:900px) and (max-width:1200px){
   .limited{
     display: none;
@@ -701,7 +732,7 @@ input::-webkit-inner-spin-button {
     height: 70px;
     display: flex;
     flex-direction: column;
-    z-index: 15000;
+    z-index: 3000;
     background: #323232;
     border: solid 1px black;
     box-shadow: 0 0 3px black;
@@ -729,8 +760,8 @@ input::-webkit-inner-spin-button {
 @media all and (max-width:600px){
   .documentation,.layers{
     width: calc(100% - 120px);
-    top: 90px;
-    height: calc(100% - 135px);
+    top: 105px;
+    height: calc(100% - 150px);
   }
   .download-container, .close-download{
     width: 70%;
@@ -762,5 +793,12 @@ input::-webkit-inner-spin-button {
   }
   .imgcontainer{
     height: 100px;
+  }
+  .hidden-mobile{
+    display: none;
+  }
+  .open-layers,.open-documentation{
+    height: 50px;
+    top:45px;
   }
 }

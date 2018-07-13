@@ -266,6 +266,9 @@ var draw = {
     if (toolName == "Text"){
         draw.state.tool = new Text(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
     }
+    if (toolName == "Scale"){
+        draw.state.tool = new Scale(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
+    }
   },
   changeColor : function(num,type){
     if (type == 1){
@@ -322,6 +325,22 @@ var draw = {
     draw.state.mainColor = "rgb(" + r + ","+ g +","+ b +")";
     document.getElementById("main-color").style.background = draw.state.mainColor;
     close();
+  },
+  hexToRGBA : function (hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+        a:255
+    } : null;
+  },
+  colorInput : function(){
+
+    draw.state.mainColor = document.getElementById('color-input').value;
+    draw.state.mainColorRGBA = draw.hexToRGBA(document.getElementById('color-input').value);
+    draw.state.mainColor = "rgb(" +   draw.state.mainColorRGBA.r + ","+   draw.state.mainColorRGBA.g +","+   draw.state.mainColorRGBA.b +")";
+    document.getElementById("main-color").style.background = draw.state.mainColor;
   },
   calcScale : function(w,h,w1,h1){
     var t = h;
