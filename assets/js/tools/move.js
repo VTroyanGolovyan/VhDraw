@@ -29,7 +29,7 @@ function Move(state, ctx){
   this.onmouseup  = function(coords){
      this.active = false;
      this.state.view.style.cursor = "default";
-     this.state.paper.save();
+     this.state.paper.save("Cмещение");
   }
   this.onmouseout = function(){
      this.active = false;

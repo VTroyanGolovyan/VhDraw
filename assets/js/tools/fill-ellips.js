@@ -63,7 +63,7 @@ function FillEllips(state, ctx){
        ctx.ellipse(this.startX,this.startY, Math.abs(coords.x - this.startX), Math.abs(coords.y - this.startY),0,0,2 * Math.PI);
        ctx.fill();
      }
-     this.state.paper.save();
+     this.state.paper.save("Закрашенный эллипс");
   }
   this.onmouseout = function(){
      this.active = false;

@@ -26,7 +26,7 @@ function Pencil(state, ctx){
      this.ctx.lineWidth = state.lineWidth;
      this.active = false;
      this.ctx.stroke();
-     this.state.paper.save();
+     this.state.paper.save("Карандаш");
   }
   this.onmouseout = function(){
      this.active = false;

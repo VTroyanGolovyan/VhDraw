@@ -64,7 +64,7 @@ function Ellips(state, ctx){
        this.ctx.stroke();
      }
 
-     this.state.paper.save();
+     this.state.paper.save("Еллипс");
   }
   this.onmouseout = function(){
      this.active = false;

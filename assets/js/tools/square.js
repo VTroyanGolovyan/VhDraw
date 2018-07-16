@@ -60,7 +60,7 @@ function StrokeSquare(state, ctx){
      if(this.state.hotkeys.shift){
         this.shiftDraw(this.ctx,this.startX, this.startY,coords.x,coords.y);
      }else this.ctx.strokeRect(this.startX,this.startY,coords.x - this.startX, coords.y - this.startY);
-     this.state.paper.save();
+     this.state.paper.save("Прямоугольник");
   }
   this.onmouseout = function(){
      this.active = false;
@@ -127,7 +127,7 @@ function FillSquare(state, ctx){
      if (this.state.hotkeys.shift)
        this.shiftDraw(this.ctx, this.startX, this.startY, coords.x, coords.y)
      else this.ctx.fillRect(this.startX,this.startY,coords.x - this.startX, coords.y - this.startY);
-     this.state.paper.save();
+     this.state.paper.save("Закрашенный прямоугольник");
   }
   this.onmouseout = function(){
      this.active = false;

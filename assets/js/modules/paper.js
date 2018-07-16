@@ -75,24 +75,26 @@ function Paper(width,height,state){
   this.getLayer = function(i){
     return this.layers[i];
   }
-  this.save = function(){
-    this.getLayer(this.state.activeLayer).save()
+  this.save = function(name=""){
+    this.getLayer(this.state.activeLayer).save(name)
   }
   this.deleteLayer = function(id){
-    this.state.deletedLayers.push(this.layers[id]);
-    if (this.state.activeLayer == id && this.layers.length != 1){
-      if (id == this.layers.length-1){
-        this.changeActiveLayer(this.state.activeLayer-1);
+    if (this.layers.length > 0){
+      this.state.deletedLayers.push(this.layers[id]);
+      if (this.state.activeLayer == id && this.layers.length != 1){
+        if (id == this.layers.length-1){
+          this.changeActiveLayer(this.state.activeLayer-1);
+        }
+      }else{
+        if(this.state.activeLayer != 0){
+          this.changeActiveLayer(this.state.activeLayer-1);
+        }
       }
-    }else{
-      if(this.state.activeLayer != 0){
-        this.changeActiveLayer(this.state.activeLayer-1);
-      }
+      this.layers.splice(id,1);
+      this.renderLayersControllers('layers');
+      this.changeActiveLayer(this.state.activeLayer);
+      draw.changeTool(this.state.toolName);
     }
-    this.layers.splice(id,1);
-    this.renderLayersControllers('layers');
-    this.changeActiveLayer(this.state.activeLayer);
-    draw.changeTool(this.state.toolName);
   }
   this.addLayer = function(x,y,width,height){
     this.layers.push(new Layer(x,y,width,height,"Слой "+(this.layers.length+1)));
@@ -106,6 +108,7 @@ function Paper(width,height,state){
     this.state.activeLayer = id;
     draw.changeTool(this.state.toolName);
     this.renderLayersControllers('layers');
+    this.getLayer(this.state.activeLayer).renderHistory(document.getElementById("history-list"));
   }
   this.download = function exportCanvasAsPNG(mime, type) {
 
@@ -200,6 +203,7 @@ function Paper(width,height,state){
            t.state.toolName = 'Pencil';
           draw.changeTool(t.state.toolName);
           t.renderLayersControllers('layers');
+          t.getLayer(t.state.activeLayer).renderHistory(document.getElementById("history-list"));
       }
       img.setAttribute("id",i);
       img.onclick = function(){
@@ -208,6 +212,7 @@ function Paper(width,height,state){
            t.state.toolName = 'Pencil';
           draw.changeTool(t.state.toolName);
           t.renderLayersControllers('layers');
+          t.getLayer(t.state.activeLayer).renderHistory(document.getElementById("history-list"));
       }
       layerCont.appendChild(layer);
     }

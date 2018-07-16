@@ -27,7 +27,7 @@ function Fill(state, ctx){
 
   }
   this.onmouseup  = function(coords){
-    this.state.paper.save();
+    this.state.paper.save("Заливка");
   }
   this.onmouseout = function(){
 

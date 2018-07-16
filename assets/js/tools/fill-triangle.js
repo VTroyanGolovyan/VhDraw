@@ -53,7 +53,7 @@ function FillTriangle(state, ctx){
      this.ctx.lineTo(this.startX,this.startY);
 
      this.ctx.fill();
-     this.state.paper.save();
+     this.state.paper.save("Закрашенный треугольник");
   }
   this.onmouseout = function(){
      this.active = false;

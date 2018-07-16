@@ -71,8 +71,7 @@ var draw = {
     draw.state.paper = new Paper(w,h,draw.state);
     draw.state.paper.addLayer(0,0,w,h);
     draw.state.paper.getLayer(0).name = "Шаблон";
-    draw.state.paper.getLayer(0).save();
-    draw.state.paper.getLayer(1).save();
+
     draw.state.activeLayer = 0;
     draw.state.paper.changeActiveLayer(1);
     draw.state.view = document.createElement("canvas");
@@ -306,7 +305,7 @@ var draw = {
       draw.state.paper.addLayer(0,0,this.width,this.height);
       draw.state.paper.getLayer(0).name = "Шаблон";
       draw.state.paper.getLayer(0).getCtx().drawImage(this,0,0);
-      draw.state.paper.getLayer(0).save();
+      draw.state.paper.getLayer(0).save("Картинка");
       draw.state.paper.changeActiveLayer(1);
       draw.calcScale(draw.state.paper.width, draw.state.paper.height, draw.state.view.width, draw.state.view.height);
     }

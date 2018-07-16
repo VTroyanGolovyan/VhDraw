@@ -235,22 +235,57 @@ input::-webkit-inner-spin-button {
   display: flex;
   flex-direction: row;
 }
-.history div:first-child{
-  width: 50%;
+.history .arrows{
+  width:33.33333%;
+  align-items: center;
+}
+.history .arrows:first-child{
+  width: 33%;
   cursor: pointer;
   display: flex;
   justify-content: flex-start;
 }
-.history div:last-child{
-  width: 50%;
+.history .arrows:nth-child(2), .open-history-list{
+  width: 33%;
   cursor: pointer;
   display: flex;
   justify-content: flex-end;
 }
-.history div:hover{
+.history div img{
+  width: 32px;
+  height: 32px;
+}
+.history-list{
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 20%;
+  height: 350px;
+  top:75px;
+  padding-top: 5px;
+  display: none;
+}
+.real-history-list{
+  overflow: hidden;
+  background: #323232;
+  overflow-y: scroll;
+  border-left: solid 1px black;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  box-shadow: 0 1px 3px black;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  height: 350px;
+}
+.history .open-history-list:hover .history-list{
+  display:flex;
+  flex-direction: column;
+}
+.history .arrows:hover{
   background:#191919;
   border-radius: 3px;
 }
+
 #lw{
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -609,6 +644,28 @@ input::-webkit-inner-spin-button {
 }
 .draw-area{
   background: url("../img/glue.png");
+}
+.history-name{
+  text-align: center;
+  color: #dddddd;
+  cursor: pointer;
+  padding: 5px;
+  margin: 5px;
+  border-bottom: solid 1px #dddddd;
+  border-radius: 3px;
+}
+
+.history-item{
+  text-align: center;
+  color: #dddddd;
+  cursor: pointer;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 3px;
+}
+.active-item{
+  background: #191919;
+
 }
 @media all and (min-width:900px) and (max-width:1200px){
   .limited{

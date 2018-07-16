@@ -53,7 +53,7 @@ function Triangle(state, ctx){
      this.ctx.lineTo(this.startX,this.startY);
 
      this.ctx.stroke();
-     this.state.paper.save();
+     this.state.paper.save("Треугольник");
   }
   this.onmouseout = function(){
      this.active = false;

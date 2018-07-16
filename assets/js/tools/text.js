@@ -108,7 +108,7 @@ function Text(state, ctx){
     this.ctx.font = size + "px Georgia";
     this.ctx.textBaseline = "top";
     this.ctx.fillText(this.text,x,y,width);
-    this.state.paper.save();
+    this.state.paper.save("Текст");
   }
   this.onmouseout = function(){
      this.active = false;

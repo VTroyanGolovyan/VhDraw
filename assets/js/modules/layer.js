@@ -26,35 +26,37 @@ function Layer(x,y,width,height,name = ""){
     this.width = width;
     this.height = height;
   }
-  this.save = function(){
+  this.save = function(name=""){
     var savePoint = document.createElement('canvas');
     savePoint.width = this.width;
     savePoint.height = this.height;
     var saveCtx = savePoint.getContext('2d');
     saveCtx.drawImage(this.canvas,0,0);
     if (this.now == this.history.length - 1){
-      if (this.history.length >= 30)
+      if (this.history.length >= 61)
          this.history.shift();
-      this.history.push(new Point(savePoint,this.x,this.y,this.width,this.height));
+      this.history.push(new Point(savePoint,this.x,this.y,this.width,this.height,name));
       this.now = this.history.length - 1;
     }else if (this.now < this.history.length - 1){
       while (this.now != this.history.length - 1)
         this.history.pop();
-      if (this.history.length >= 30)
+      if (this.history.length >= 61)
         this.history.shift();
-      this.history.push(new Point(savePoint,this.x,this.y,this.width,this.height));
+      this.history.push(new Point(savePoint,this.x,this.y,this.width,this.height,name));
       this.now = this.history.length - 1;
     }else{
-      this.history.push(new Point(savePoint,this.x,this.y,this.width,this.height));
+      this.history.push(new Point(savePoint,this.x,this.y,this.width,this.height,name));
       this.now = this.history.length - 1;
     }
     this.renderMiniatura(this.canvas.width,this.canvas.height,this.miniatura.width,this.miniatura.height);
+    this.renderHistory(document.getElementById("history-list"));
   }
   this.restore = function(i){
     this.canvas.width = this.history[i].width;
     this.canvas.height = this.history[i].height;
     this.width = this.history[i].width;
     this.height = this.history[i].height;
+    this.ctx = this.canvas.getContext("2d");
     this.ctx.drawImage(this.history[i].canvas,0,0);
     this.x = this.history[i].x;
     this.y = this.history[i].y;
@@ -65,6 +67,7 @@ function Layer(x,y,width,height,name = ""){
       this.restore(this.now);
     }
     this.renderMiniatura(this.canvas.width,this.canvas.height,this.miniatura.width,this.miniatura.height);
+    this.renderHistory(document.getElementById("history-list"));
   }
   this.forward = function(){
     if(this.now != this.history.length-1){
@@ -72,6 +75,7 @@ function Layer(x,y,width,height,name = ""){
       this.restore(this.now);
     }
     this.renderMiniatura(this.canvas.width,this.canvas.height,this.miniatura.width,this.miniatura.height);
+    this.renderHistory(document.getElementById("history-list"));
   }
   this.isVisible = function(){
     return this.visible;
@@ -97,7 +101,7 @@ function Layer(x,y,width,height,name = ""){
     this.y = this.y + y;
     this.canvas = t;
     this.ctx = this.canvas.getContext("2d");
-    this.save();
+    this.save("Ножницы");
   }
   this.miniatura = document.createElement('canvas');
   this.miniatura.width = parseInt(document.getElementById('layers').offsetWidth)-35 ;
@@ -130,19 +134,43 @@ function Layer(x,y,width,height,name = ""){
   this.getMiniatura = function(){
     return this.miniatura;
   }
-  this.save();
-  this.recalcMiniatura = function(){
+    this.recalcMiniatura = function(){
     this.miniatura = document.createElement('canvas');
     this.miniatura.width = parseInt(document.getElementById('layers').offsetWidth)-35 ;
     this.miniatura.height = Math.floor(this.miniatura.width*0.5);
     this.minctx = this.miniatura.getContext('2d');
     this.renderMiniatura(this.canvas.width,this.canvas.height,this.miniatura.width,this.miniatura.height);
   }
+  this.renderHistory = function(container){
+    container.innerHTML = '';
+    var layerName = document.createElement("div");
+    layerName.innerHTML = "История";
+    layerName.className = 'history-name';
+    container.appendChild(layerName);
+    var t = this;
+    for (var i = this.history.length-1; i >= 0 ; i--){
+      let historyItem = document.createElement('div');
+
+      historyItem.innerHTML = this.history[i].name;
+      container.appendChild(historyItem);
+      historyItem.setAttribute("data-id",i);
+      if (i == t.now)
+         historyItem.className = "history-item active-item";
+      else historyItem.className = "history-item";
+      historyItem.onclick = function(){
+         t.now = this.getAttribute("data-id");
+         t.restore(t.now);
+         t.renderHistory(document.getElementById("history-list"));
+      }
+    }
+  }
+  this.save("Cлой создан");
 }
-function Point(canvas,x,y,width,height){
+function Point(canvas,x,y,width,height,name){
    this.x = x;
    this.y = y;
    this.canvas = canvas;
    this.height = height;
    this.width = width;
+   this.name = name;
 }

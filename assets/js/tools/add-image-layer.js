@@ -97,7 +97,7 @@ function AddImageLayer(state, ctx){
     layer.name = "Картинка";
     draw.state.paper.renderLayersControllers('layers');
     layer.getCtx().drawImage(this.img,0,0,layer.width,layer.height);
-    this.state.paper.getLayer(this.state.activeLayer).save();
+    this.state.paper.getLayer(this.state.activeLayer).save("Вставка картинки");
   }
   this.onmouseout = function(){
      this.active = false;

@@ -20,7 +20,7 @@ function Scale(state, ctx){
        var dx = this.viewx - this.startvX;
        var dy = this.viewy - this.startvY;
        var l = this.state.paper.getLayer(this.state.activeLayer);
-       if (this.corner.rightBottom){ //нижний правый угол
+       if (this.corner.rightBottom ){ //нижний правый угол
            this.renderLayer(ctx,this.startvX-l.width*state.area.scale, this.startvY-l.height*state.area.scale, this.viewx,this.viewy);
        }
        if (this.corner.leftBottom){ //нижний левый угол
@@ -152,8 +152,6 @@ function Scale(state, ctx){
     else return false;
   }
   this.toViewX = function(docx){
-     //Math.floor( (x/draw.state.area.scale + draw.state.area.x))
-    // alert(Math.floor((docx - state.area.x)*state.area.scale))
      return Math.floor((docx - state.area.x)*state.area.scale)
   }
   this.toViewY = function(docy){
@@ -203,22 +201,22 @@ function Scale(state, ctx){
       var dx = coords.x - this.startX;
       var dy = coords.y - this.startY;
 
-        if (this.corner.rightBottom){ //нижний правый угол
+        if (this.corner.rightBottom && l.width + dx >=1 && l.height + dy >= 1){ //нижний правый угол
            l.scale(l.width + dx,l.height + dy);
         }
-        if (this.corner.leftBottom){ //нижний левый угол
+        if (this.corner.leftBottom && l.width - dx >=1 && l.height + dy >= 1){ //нижний левый угол
            l.scale(l.width - dx,l.height + dy);
            l.move(dx,0);
         }
-        if (this.corner.rightTop){ //верхний правый угол
+        if (this.corner.rightTop && l.width + dx >=1 && l.height - dy >= 1){ //верхний правый угол
            l.scale(l.width + dx,l.height - dy);
            l.move(0,dy);
         }
-        if (this.corner.leftTop){ //верхний левый угол
+        if (this.corner.leftTop && l.width - dx >=1 && l.height - dy >= 1){ //верхний левый угол
            l.scale(l.width - dx,l.height - dy);
            l.move(dx,dy);
         }
-       this.state.paper.save();
+       this.state.paper.save("Изменение размера");
     }
   }
   this.onmouseout = function(){

@@ -49,7 +49,7 @@ function Line(state, ctx){
      this.ctx.lineTo(coords.x,coords.y);
 
      this.ctx.stroke();
-     this.state.paper.save();
+     this.state.paper.save("Прямая");
   }
   this.onmouseout = function(){
      this.active = false;

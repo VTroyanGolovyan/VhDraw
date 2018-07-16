@@ -23,7 +23,7 @@ function Eraser(state, ctx){
      this.ctx.lineWidth = state.lineWidth;
      this.active = false;
      this.ctx.clearRect(coords.x,coords.y,this.state.lineWidth,this.state.lineWidth);
-     this.state.paper.save();
+     this.state.paper.save("Ластик");
   }
   this.onmouseout = function(){
      this.active = false;

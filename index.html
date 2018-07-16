@@ -165,11 +165,17 @@
                 </select>
               </div>
               <div class = "history">
-                <div onclick="draw.back()">
+                <div onclick="draw.back()" class = "arrows">
                   <img title="Назад" src = "assets/icon/left-arrow.png">
                 </div>
-                <div onclick="draw.forward()">
+                <div onclick="draw.forward()" class = "arrows">
                   <img title="Вперед" src = "assets/icon/right-arrow.png">
+                </div>
+                <div class="open-history-list">
+                  <img title="История" src = "assets/icon/history.png">
+                  <div class = "history-list">
+                    <div id = "history-list" class = "real-history-list"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -313,7 +319,6 @@
        <script src = "assets/js/modules/paper.js"></script>
        <script src = "assets/js/modules/shablones.js"></script>
        <script src = "assets/js/modules/download.js"></script>
-       <script src = "assets/js/modules/drag-list.js"></script>
        <!-- Инструменты -->
        <script src = "assets/js/tools/square.js"></script>
        <script src = "assets/js/tools/pencil.js"></script>
