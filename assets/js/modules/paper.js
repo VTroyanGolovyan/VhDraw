@@ -17,27 +17,47 @@ function Paper(width,height,state){
     this.ctx.clearRect(0,0,this.width,this.height);
     for (var i = 0; i < this.layers.length; i++){
         if (this.layers[i].isVisible()){
-          this.ctx.drawImage(this.layers[i].getView(),this.layers[i].x,this.layers[i].y);
+           if (i != this.state.activeLayer || !(this.state.toolName == 'Scale' && state.tool.active))
+              this.ctx.drawImage(this.layers[i].getView(),this.layers[i].x,this.layers[i].y);
         }
     }
-    this.ctx.strokeStyle = 'orange';
-    this.ctx.setLineDash([1, 0]);
-    this.ctx.strokeRect(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y,
-                        this.layers[this.state.activeLayer].width,this.layers[this.state.activeLayer].height);
-    this.ctx.strokeStyle = 'red';
+    if (!(this.state.toolName == 'Scale' && state.tool.active)){
+      this.ctx.strokeStyle = 'orange';
+      this.ctx.setLineDash([1, 0]);
+      this.ctx.strokeRect(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y,
+                          this.layers[this.state.activeLayer].width,this.layers[this.state.activeLayer].height);
+      this.ctx.strokeStyle = 'red';
 
-    if(new Date().getTime() - this.lastUpdate >= 250){
-      this.f = !this.f;
-      this.lastUpdate = new Date().getTime();
+      if(new Date().getTime() - this.lastUpdate >= 250){
+        this.f = !this.f;
+        this.lastUpdate = new Date().getTime();
+      }
+      if (this.f)
+         this.ctx.setLineDash([5, 3]);
+      else {
+         this.ctx.setLineDash([5, 6]);
+      }
+      this.ctx.strokeRect(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y,
+                          this.layers[this.state.activeLayer].width,this.layers[this.state.activeLayer].height);
+      if (state.toolName == 'Scale'){
+              this.ctx.fillStyle = '#323232';
+              this.ellips(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y);
+              this.ellips(this.layers[this.state.activeLayer].x+this.layers[this.state.activeLayer].width,
+                          this.layers[this.state.activeLayer].y+this.layers[this.state.activeLayer].height);
+              this.ellips(this.layers[this.state.activeLayer].x,
+                          this.layers[this.state.activeLayer].y+this.layers[this.state.activeLayer].height);
+              this.ellips(this.layers[this.state.activeLayer].x+this.layers[this.state.activeLayer].width,
+                          this.layers[this.state.activeLayer].y)
+      }
     }
-    if (this.f)
-       this.ctx.setLineDash([5, 3]);
-    else {
-       this.ctx.setLineDash([5, 6]);
-    }
-    this.ctx.strokeRect(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y,
-                        this.layers[this.state.activeLayer].width,this.layers[this.state.activeLayer].height);
+
+
     return this.view;
+  }
+  this.ellips = function(x,y){
+    this.ctx.beginPath();
+    this.ctx.ellipse(x,y, Math.floor(20/state.area.scale), Math.floor(20/state.area.scale),0,0,2 * Math.PI);
+    this.ctx.fill();
   }
   this.getDocument = function(){
     this.ctx.fillStyle = "white";
@@ -78,8 +98,8 @@ function Paper(width,height,state){
     this.layers.push(new Layer(x,y,width,height,"Слой "+(this.layers.length+1)));
     this.state.activeLayer = this.layers.length-1;
     this.renderLayersControllers('layers');
-    if (this.state.toolName == 'AddImageLayer')
-       this.state.toolName = 'Pencil';
+    if (this.state.toolName == 'AddImageLayer' || this.state.toolName == 'AddLayer')
+       this.state.toolName = 'Scale';
     draw.changeTool(this.state.toolName);
   }
   this.changeActiveLayer = function(id){
@@ -113,8 +133,12 @@ function Paper(width,height,state){
       t.addLayer(0,0,t.width,t.height);
     }
     container.appendChild(add);
+    var layerCont = document.createElement('div');
+    container.appendChild(layerCont);
+    layerCont.id = 'layer-container';
     for (var i = this.layers.length - 1; i >= 0; i--){
       let layer = document.createElement('div');
+      //layer.setAttribute('draggable', true);
       let name = document.createElement("div");
       name.innerHTML = this.layers[i].name;
       name.className = 'layer-name';
@@ -185,7 +209,7 @@ function Paper(width,height,state){
           draw.changeTool(t.state.toolName);
           t.renderLayersControllers('layers');
       }
-      container.appendChild(layer);
+      layerCont.appendChild(layer);
     }
   }
   this.restoreLayer = function(layer){

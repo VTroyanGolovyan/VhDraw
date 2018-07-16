@@ -208,7 +208,7 @@ var draw = {
                                  Math.floor(draw.state.area.height*draw.state.area.scale));
         draw.state.tool.render(draw.state.viewctx);
     }catch(e){
-
+       console.log(e)
     }
     requestAnimationFrame(draw.render);
 

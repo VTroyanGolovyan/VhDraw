@@ -68,8 +68,9 @@ function AddLayer(state, ctx){
        y = coords.docy;
        height = this.startY -  coords.docy;
      }
-     if(width > 0 && height > 0)
+     if(width > 0 && height > 0){
        this.state.paper.addLayer(x,y,width,height);
+     }
   }
   this.onmouseout = function(){
      this.active = false;
