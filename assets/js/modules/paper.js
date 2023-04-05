@@ -21,7 +21,11 @@ function Paper(width,height,state){
               this.ctx.drawImage(this.layers[i].getView(),this.layers[i].x,this.layers[i].y);
         }
     }
-    if (!(this.state.toolName == 'Scale' && state.tool.active)){
+    if (!(this.state.toolName == 'Scale' && (state.tool.active ) )){
+      if (this.layers[this.state.activeLayer].isVisible()){
+            this.ctx.drawImage(this.layers[this.state.activeLayer].getView(),this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y);
+      }
+
       this.ctx.strokeStyle = 'orange';
       this.ctx.setLineDash([1, 0]);
       this.ctx.strokeRect(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y,
@@ -40,24 +44,41 @@ function Paper(width,height,state){
       this.ctx.strokeRect(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y,
                           this.layers[this.state.activeLayer].width,this.layers[this.state.activeLayer].height);
       if (state.toolName == 'Scale'){
-              this.ctx.fillStyle = '#323232';
-              this.ellips(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y);
-              this.ellips(this.layers[this.state.activeLayer].x+this.layers[this.state.activeLayer].width,
+              this.ctx.strokeStyle = 'rgba(0,0,0,1)';
+              if (state.area.scale < 1){
+                this.ctx.lineWidth = Math.round(1/state.area.scale)
+              }
+              if (!state.hotkeys.shift){
+                 this.square(this.layers[this.state.activeLayer].x,this.layers[this.state.activeLayer].y);
+                 this.square(this.layers[this.state.activeLayer].x+this.layers[this.state.activeLayer].width,
                           this.layers[this.state.activeLayer].y+this.layers[this.state.activeLayer].height);
-              this.ellips(this.layers[this.state.activeLayer].x,
+                 this.square(this.layers[this.state.activeLayer].x,
                           this.layers[this.state.activeLayer].y+this.layers[this.state.activeLayer].height);
-              this.ellips(this.layers[this.state.activeLayer].x+this.layers[this.state.activeLayer].width,
-                          this.layers[this.state.activeLayer].y)
+                 this.square(this.layers[this.state.activeLayer].x+this.layers[this.state.activeLayer].width,
+                          this.layers[this.state.activeLayer].y);
+              }
+              this.square(this.layers[this.state.activeLayer].x+Math.floor(this.layers[this.state.activeLayer].width/2),this.layers[this.state.activeLayer].y);
+              this.square(this.layers[this.state.activeLayer].x+this.layers[this.state.activeLayer].width,
+                                     this.layers[this.state.activeLayer].y+Math.floor(this.layers[this.state.activeLayer].height/2));
+              this.square(this.layers[this.state.activeLayer].x,
+                                      this.layers[this.state.activeLayer].y+Math.floor(this.layers[this.state.activeLayer].height/2));
+              this.square(this.layers[this.state.activeLayer].x+Math.floor(this.layers[this.state.activeLayer].width/2),
+                                      this.layers[this.state.activeLayer].y+Math.floor(this.layers[this.state.activeLayer].height));
       }
     }
-
-
     return this.view;
   }
+
   this.ellips = function(x,y){
     this.ctx.beginPath();
-    this.ctx.ellipse(x,y, Math.floor(20/state.area.scale), Math.floor(20/state.area.scale),0,0,2 * Math.PI);
+    this.ctx.ellipse(x,y, Math.floor(15/state.area.scale), Math.floor(15/state.area.scale),0,0,2 * Math.PI);
     this.ctx.fill();
+  }
+
+  this.square = function(x,y){
+    this.ctx.setLineDash([]);
+    this.ctx.strokeRect(x-Math.floor(7/state.area.scale),y-Math.floor(7/state.area.scale), Math.floor(14/state.area.scale),Math.floor(14/state.area.scale));
+    this.ctx.strokeRect(x-Math.floor(7/state.area.scale),y-Math.floor(7/state.area.scale), Math.floor(14/state.area.scale),Math.floor(14/state.area.scale));
   }
   this.getDocument = function(){
     this.ctx.fillStyle = "white";
@@ -72,12 +93,15 @@ function Paper(width,height,state){
     }
     return this.view;
   }
+
   this.getLayer = function(i){
     return this.layers[i];
   }
+
   this.save = function(name=""){
     this.getLayer(this.state.activeLayer).save(name)
   }
+
   this.deleteLayer = function(id){
     if (this.layers.length > 0){
       this.state.deletedLayers.push(this.layers[id]);
@@ -96,22 +120,24 @@ function Paper(width,height,state){
       draw.changeTool(this.state.toolName);
     }
   }
-  this.addLayer = function(x,y,width,height){
-    this.layers.push(new Layer(x,y,width,height,"Слой "+(this.layers.length+1)));
+
+  this.addLayer = function(x,y,width,height,type=0){
+    this.layers.push(new Layer(x,y,width,height,type,"Слой "+(this.layers.length+1)));
     this.state.activeLayer = this.layers.length-1;
     this.renderLayersControllers('layers');
     if (this.state.toolName == 'AddImageLayer' || this.state.toolName == 'AddLayer')
        this.state.toolName = 'Scale';
     draw.changeTool(this.state.toolName);
   }
+
   this.changeActiveLayer = function(id){
     this.state.activeLayer = id;
     draw.changeTool(this.state.toolName);
     this.renderLayersControllers('layers');
     this.getLayer(this.state.activeLayer).renderHistory(document.getElementById("history-list"));
   }
-  this.download = function exportCanvasAsPNG(mime, type) {
 
+  this.download = function exportCanvasAsPNG(mime, type) {
       var canvasElement = this.getDocument();
       var fileName = Math.random().toString(36).substring(4)+"."+type;
       var imgURL = canvasElement.toDataURL(mime);
@@ -125,7 +151,45 @@ function Paper(width,height,state){
       dlLink.click();
       document.body.removeChild(dlLink);
   }
+
+  this.getImageDataUrl = function(){
+     return this.getDocument().toDataURL("image/png"); //получили изображение
+  }
   this.renderLayersControllers = function(id){
+    function handleDragStart(e) {
+      this.style.opacity = '0.4';
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.getAttribute("data-id"));
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault(); // Necessary. Allows us to drop.
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      this.classList.add('over');
+    }
+
+    function handleDragLeave(e) {
+      this.classList.remove('over');
+    }
+    var tl = this;
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+
+      tl.swap(  parseInt( e.dataTransfer.getData('text/html')),parseInt(this.getAttribute("data-id")));
+
+      return false;
+    }
+    function handleDragEnd(e) {
+
+    }
     var container = document.getElementById(id);
     container.innerHTML = "";
     var add = document.createElement('div');
@@ -141,6 +205,8 @@ function Paper(width,height,state){
     layerCont.id = 'layer-container';
     for (var i = this.layers.length - 1; i >= 0; i--){
       let layer = document.createElement('div');
+      if (i != 0)
+        layer.setAttribute('data-id',i);
       //layer.setAttribute('draggable', true);
       let name = document.createElement("div");
       name.innerHTML = this.layers[i].name;
@@ -183,38 +249,60 @@ function Paper(width,height,state){
         if (confirm("Удалить слой (Востановление ctrl+e)?"))
            t.deleteLayer(this.getAttribute("data-id"));
       }
-      buttoncont.appendChild(del)
+
+
       buttoncont.appendChild(topButton);
-      buttoncont.appendChild(bottomButton);
+      topButton.className = "onhover";
+      bottomButton.className = "onhover";
+      if (i > 1)
+        buttoncont.appendChild(bottomButton);
+
+      if(this.layers[i].type == 1)
+        buttoncont.appendChild(this.colorChanger(this.layers[i]));
+      buttoncont.appendChild(del)
       topLayerContainer.appendChild(buttoncont);
-      layer.appendChild(topLayerContainer);
+
       var imgCont = document.createElement('div');
       imgCont.className = 'miniatura-container';
-      imgCont.appendChild(img);
-      layer.appendChild(imgCont);
+      if (this.layers[i].miniaturaF){
+        imgCont.appendChild(img);
+        layer.appendChild(imgCont);
+      }
       input.onchange = function(){
         t.getLayer(this.getAttribute("data-id")).changeVisible();
       }
-
+      if (i != 0)
+        layer.appendChild(topLayerContainer);
       name.setAttribute("id",i);
-      name.onclick = function(){
-        t.state.activeLayer = parseInt(this.getAttribute("id"));
-        if (t.state.toolName == 'AddImageLayer')
-           t.state.toolName = 'Pencil';
-          draw.changeTool(t.state.toolName);
-          t.renderLayersControllers('layers');
-          t.getLayer(t.state.activeLayer).renderHistory(document.getElementById("history-list"));
-      }
+      if (i != 0)
+        name.onclick = function(){
+          t.state.activeLayer = parseInt(this.getAttribute("id"));
+          if (t.state.toolName == 'AddImageLayer')
+             t.state.toolName = 'Pencil';
+             draw.changeTool(t.state.toolName);
+             t.renderLayersControllers('layers');
+             t.getLayer(t.state.activeLayer).renderHistory(document.getElementById("history-list"));
+         }
       img.setAttribute("id",i);
-      img.onclick = function(){
-        t.state.activeLayer = parseInt(this.getAttribute("id"));
-        if (t.state.toolName == 'AddImageLayer')
-           t.state.toolName = 'Pencil';
-          draw.changeTool(t.state.toolName);
-          t.renderLayersControllers('layers');
-          t.getLayer(t.state.activeLayer).renderHistory(document.getElementById("history-list"));
-      }
+      if (i != 0)
+         img.onclick = function(){
+            t.state.activeLayer = parseInt(this.getAttribute("id"));
+            if (t.state.toolName == 'AddImageLayer')
+            t.state.toolName = 'Pencil';
+            draw.changeTool(t.state.toolName);
+            t.renderLayersControllers('layers');
+            t.getLayer(t.state.activeLayer).renderHistory(document.getElementById("history-list"));
+         }
       layerCont.appendChild(layer);
+      if (i != 0){
+          layer.setAttribute('draggable',true);
+          layer.addEventListener('dragstart', handleDragStart, false);
+          layer.addEventListener('dragenter', handleDragEnter, false)
+          layer.addEventListener('dragover', handleDragOver, false);
+          layer.addEventListener('dragleave', handleDragLeave, false);
+          layer.addEventListener('drop', handleDrop, false);
+          layer.addEventListener('dragend', handleDragEnd, false);
+      }
     }
   }
   this.restoreLayer = function(layer){
@@ -257,6 +345,24 @@ function Paper(width,height,state){
         this.renderLayersControllers('layers');
     }
   }
+  this.swap = function(id1,id2){
+    if (id1 > 0 && id2 > 0 && id1 < this.layers.length && id2 < this.layers.length){
+      id1 = parseInt(id1);
+      id2 = parseInt(id2);
+      var t = this.layers[id1];
+      this.layers[id1] = this.layers[id2];
+      this.layers[id2] = t;
+      if (id1 == draw.state.activeLayer)
+          draw.state.activeLayer = id2;
+      else if(id2 == draw.state.activeLayer)
+          draw.state.activeLayer = id1;
+
+      if (this.state.toolName == 'AddImageLayer')
+          this.state.toolName = 'Pencil';
+      draw.changeTool(this.state.toolName);
+      this.renderLayersControllers('layers');
+   }
+  }
   this.recalcLayerMiniatures = function(){
     for (var i = this.layers.length - 1; i >= 0; i--)
       this.layers[i].recalcMiniatura();
@@ -265,5 +371,20 @@ function Paper(width,height,state){
   var tl = this.getLayer(0);
   tl.getCtx().fillStyle = "white";
   tl.getCtx().fillRect(0,0,tl.width,tl.height);
+  this.colorChanger = function(layer){
+    var input = document.createElement('input');
+    input.setAttribute('type','color');
+    var container = document.createElement("div");
+    container.className = 'color-changer';
+    container.appendChild(input);
+    container.style.background = layer.color;
+    var t = this;
+    input.onchange = function(){
+      var rgba = draw.hexToRGBA(this.value);
+      layer.changeColor("rgba("+rgba.r+","+rgba.g+","+rgba.b+",1)",state);
+      t.renderLayersControllers('layers');
+    }
 
+    return container;
+  }
 }

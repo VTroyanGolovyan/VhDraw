@@ -18,11 +18,48 @@ function AddImageLayer(state, ctx){
   input.setAttribute('id','fileup');
   document.body.appendChild(input);
   input.click();
+  var t = this;
   input.onchange = function(){
      var file    = document.getElementById('fileup').files[0];
      var reader  = new FileReader();
      reader.onloadend = function () {
        img.src = reader.result;
+
+       img.onload = function(){
+         var w = 1;
+         var h = 1;
+         var x = 0;
+         var y = 0;
+         var maxWidth = Math.floor(0.7*t.state.paper.width);
+         var maxHeight = Math.floor(0.7*t.state.paper.height);
+         if (this.width < maxWidth && this.height < maxHeight){
+            w = this.width;
+            h = this.height;
+         }else{
+            w = this.width;
+            h = this.height;
+            if( w > maxWidth){
+              let t = w;
+              w = maxWidth;
+              h = Math.floor(h*maxWidth/t);
+            }
+            if (h > maxHeight){
+              let t = h;
+              h = maxHeight;
+              w = Math.floor(w*maxHeight/t);
+            }
+         }
+         x = Math.floor((t.state.paper.width-w)/2);
+         y = Math.floor((t.state.paper.height-h)/2);
+         if(w > 0 && h > 0){
+           t.state.paper.addLayer(x,y,w,h);
+           var layer = t.state.paper.getLayer(t.state.activeLayer);
+           layer.name = "Картинка";
+           draw.state.paper.renderLayersControllers('layers');
+           layer.getCtx().drawImage(this,0,0,layer.width,layer.height);
+           t.state.paper.getLayer(t.state.activeLayer).save("Вставка картинки");
+         }
+       }
      }
      if (file) {
        reader.readAsDataURL(file);

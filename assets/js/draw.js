@@ -1,11 +1,12 @@
 var draw = {
   state : {
     tool : "",
+    dragLayer:0,
     toolName : "Pencil",
-    mainColor : "black",
+    mainColor : "rgb(66,255,0)",
     mainColorRGBA : {
-      r:0,
-      g:0,
+      r:66,
+      g:255,
       b:0,
       a:255
     },
@@ -29,6 +30,15 @@ var draw = {
     scrollVal:15,
     paper : "",
     deletedLayers : new Array()
+  },
+  mouse : "",
+  eventBuff : "",
+  stateBuff :{
+    x:0,
+    y:0
+  },
+  getPaper : function(){
+    return this.state.paper;
   },
   getXY : function(evt){
     var rect = draw.state.view.getBoundingClientRect();
@@ -60,8 +70,63 @@ var draw = {
       docy:(Math.floor( (y/draw.state.area.scale + draw.state.area.y)))
     }
   },
+  calcXY : function(evt){
+    var rect = draw.state.view.getBoundingClientRect();
+    var x = evt.clientX - rect.left;
+    var y = evt.clientY - rect.top;
+    var rx = Math.floor( (x/draw.state.area.scale + draw.state.area.x - draw.state.paper.getLayer(draw.state.activeLayer).x));
+    var ry = Math.floor( (y/draw.state.area.scale + draw.state.area.y - draw.state.paper.getLayer(draw.state.activeLayer).y));
+    return {
+      x:(rx),
+      y:(ry),
+      viewx:(x),
+      viewy:(y),
+      docx:(Math.floor( (x/draw.state.area.scale + draw.stateBuff.x))),
+      docy:(Math.floor( (y/draw.state.area.scale + draw.stateBuff.y)))
+    }
+  },
+  k : 0,
   scale : function(x){
+    var t = draw.calcXY(draw.eventBuff);
+    if (draw.state.area.scale > 1){
+
+      if( draw.state.paper.width/(draw.state.area.scale+x*Math.abs(draw.state.area.scale*draw.state.area.scale)) > 20 &&
+          draw.state.paper.height/(draw.state.area.scale+x*Math.abs(draw.state.area.scale*draw.state.area.scale)) > 20){
+              draw.state.area.scale+=x*Math.abs(draw.state.area.scale*draw.state.area.scale);
+          }
+    }else draw.state.area.scale+=x*Math.abs(draw.state.area.scale);
+
+    if ((draw.state.paper.width*draw.state.area.scale < draw.state.view.width)){
+        draw.state.area.x = -Math.round(Math.round((draw.state.view.width - draw.state.paper.width*draw.state.area.scale)/2)/draw.state.area.scale);
+    }else{
+      try{
+
+        var dx = Math.round((draw.mouse.docx - t.docx));
+        draw.state.area.x+=dx;
+        draw.state.area.x = Math.round(draw.state.area.x);
+        if ((draw.state.paper.width-draw.state.area.x)*draw.state.area.scale < draw.state.view.width){
+           draw.state.area.x -= Math.round((draw.state.view.width/draw.state.area.scale - draw.state.paper.width+draw.state.area.x));
+        }
+      }catch(e){ console.log(e) }
+    }
+    if (draw.state.paper.height*draw.state.area.scale < draw.state.view.height){
+        draw.state.area.y = -Math.round(Math.round((draw.state.view.height - draw.state.paper.height*draw.state.area.scale)/2)/draw.state.area.scale);
+    }else{
+      try{
+        var dy = Math.round((draw.mouse.docy - t.docy));
+        draw.state.area.y+=dy;
+        draw.state.area.y = Math.round(draw.state.area.y);
+        if ((draw.state.paper.height-draw.state.area.y)*draw.state.area.scale < draw.state.view.height){
+            draw.state.area.y -= Math.round((draw.state.view.height/draw.state.area.scale  - draw.state.paper.height+draw.state.area.y));
+        }
+      }catch(e){ console.log(e) }
+    }
+     draw.mouse = t;
+  },
+  simpleScale : function(x){
     draw.state.area.scale+=x;
+        draw.state.area.x = -Math.round(Math.round((draw.state.view.width - draw.state.paper.width*draw.state.area.scale)/2)/draw.state.area.scale);
+        draw.state.area.y = -Math.round(Math.round((draw.state.view.height - draw.state.paper.height*draw.state.area.scale)/2)/draw.state.area.scale);
   },
   init : function(id){
 
@@ -71,7 +136,8 @@ var draw = {
     draw.state.paper = new Paper(w,h,draw.state);
     draw.state.paper.addLayer(0,0,w,h);
     draw.state.paper.getLayer(0).name = "Шаблон";
-
+    draw.state.paper.getLayer(0).isDragable = false;
+    draw.state.paper.getLayer(0).save("Белый фон");
     draw.state.activeLayer = 0;
     draw.state.paper.changeActiveLayer(1);
     draw.state.view = document.createElement("canvas");
@@ -87,18 +153,18 @@ var draw = {
     draw.state.area.height = h;
 
     draw.calcScale(draw.state.paper.width, draw.state.paper.height, draw.state.view.width, draw.state.view.height);
-
+    draw.mouse = {
+      x:0,
+      y:0,
+      viewx:0,
+      viewy:0,
+      docx:0,
+      docy:0
+    }
+    draw.eventBuf = "";
     draw.state.tool = new Pencil(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
 
     document.getElementById(id).appendChild(draw.state.view);
-
-    draw.state.view.onwheel = function(e){
-      if (e.deltaY > 0){
-          draw.state.area.scale-=0.01;
-      }else{
-            draw.state.area.scale+=0.01;
-      }
-    }
 
     draw.state.view.onmousedown = function(e){
         draw.state.tool.onmousedown(draw.getXY(e));
@@ -109,7 +175,12 @@ var draw = {
           t.style.top = (e.clientY-15)+"px";
           t.style.left = (e.clientX-25)+"px";
         }
-        draw.state.tool.onmousemove(draw.getXY(e));
+        var t = draw.getXY(e);
+        draw.mouse = t;
+        draw.eventBuff = e;
+        draw.stateBuff.x = draw.state.area.x;
+        draw.stateBuff.y = draw.state.area.y;
+        draw.state.tool.onmousemove(t);
 
     }
     draw.state.view.onmouseup = function(e){
@@ -121,7 +192,6 @@ var draw = {
 
     draw.state.view.ontouchstart = function(e){
         draw.state.tool.onmousedown(draw.getTouchXY(e));
-
     }
     draw.state.view.ontouchmove = function(e){
         draw.state.tool.onmousemove(draw.getTouchXY(e));
@@ -130,10 +200,10 @@ var draw = {
         draw.state.tool.onmouseup(draw.getTouchXY(e));
     }
     draw.state.view.ontouchleave = function(e){
-       draw.state.tool.onmouseout();
+        draw.state.tool.onmouseout();
     }
     draw.state.view.ontouchcancel = function(e){
-       draw.state.tool.onmouseout();
+        draw.state.tool.onmouseout();
     }
 
     document.body.onkeypress = function(e){
@@ -147,9 +217,19 @@ var draw = {
            draw.state.area.y-=10;
         }else if(e.keyCode == 46){ //delete
           if (confirm("Удалить слой (Востановление ctrl+e)?"))
-           draw.state.paper.deleteLayer(draw.state.activeLayer);
+             draw.state.paper.deleteLayer(draw.state.activeLayer);
         }
     }
+
+    draw.state.view.onwheel = function(e){
+      if (e.deltaY > 0){
+        if ((draw.state.area.scale-0.015)*draw.state.area.width > 200)
+           draw.scale(-0.015);
+      }else{
+          draw.scale(0.015);
+      }
+    }
+
     document.body.onkeydown = function(e){
       if (e.ctrlKey && (e.which == 90 || e.keyCode == 90))
          draw.back();  //ctrl z
@@ -183,6 +263,16 @@ var draw = {
             draw.changeTool("Pipette");
         else if (e.keyCode == 66 && !draw.state.mute)  //b
             draw.changeTool("Line");
+        else if (e.keyCode == 87 && !draw.state.mute)  //w
+            draw.changeTool("Scale");
+        else if (e.keyCode == 65 && !draw.state.mute)  //a
+            draw.changeTool("FillEllips");
+        else if (e.keyCode == 86 && !draw.state.mute)  //v
+            draw.changeTool("FillSquare");
+        else if (e.keyCode == 75 && !draw.state.mute)  //k
+            draw.changeTool("Triangle");
+        else if (e.keyCode == 67 && !draw.state.mute)  //c
+            draw.changeTool("FillTriangle");
       if (e.shiftKey)
         draw.state.hotkeys.shift = true;
     }
@@ -207,24 +297,31 @@ var draw = {
                                  Math.floor(draw.state.area.height*draw.state.area.scale));
         draw.state.tool.render(draw.state.viewctx);
     }catch(e){
-       console.log(e)
+       //console.log(e)
     }
     requestAnimationFrame(draw.render);
 
   },
   changeTool : function(toolName,url=''){
     close();
-    if (document.getElementById('tool-mini'))
-      document.getElementById('tool-mini').remove();
-    if (url != ''){
-      let t = new Image();
-      t.src = url;
-      t.id = 'tool-mini';
-      document.body.appendChild(t);
-    }
+    document.body.style.cursor = "default";
     if (document.getElementById('fileup'))
       document.getElementById('fileup').remove();
+    var arr = document.getElementsByClassName('selected')
+    if (arr.length > 0){
+      for (var i = 0; i < arr.length; i++){
+        arr[i].classList.remove('selected');
+      }
+    }
+    document.getElementById(toolName+'-button').classList.add('selected');
     draw.state.toolName = toolName;
+    try{
+      if (url == '')
+         this.state.view.style.cursor = 'default';
+      else this.state.view.style.cursor = 'url('+url+'), auto';
+    }catch(e){
+       //console.log(e)
+    }
     if (toolName == "Pencil")
         draw.state.tool = new Pencil(draw.state,draw.state.paper.getLayer(draw.state.activeLayer).getCtx());
     if (toolName == "StrokeSquare")
@@ -306,6 +403,7 @@ var draw = {
       draw.state.paper.getLayer(0).name = "Шаблон";
       draw.state.paper.getLayer(0).getCtx().drawImage(this,0,0);
       draw.state.paper.getLayer(0).save("Картинка");
+      draw.state.paper.getLayer(0).isDragable = false;
       draw.state.paper.changeActiveLayer(1);
       draw.calcScale(draw.state.paper.width, draw.state.paper.height, draw.state.view.width, draw.state.view.height);
     }
@@ -335,7 +433,6 @@ var draw = {
     } : null;
   },
   colorInput : function(){
-
     draw.state.mainColor = document.getElementById('color-input').value;
     draw.state.mainColorRGBA = draw.hexToRGBA(document.getElementById('color-input').value);
     draw.state.mainColor = "rgb(" +   draw.state.mainColorRGBA.r + ","+   draw.state.mainColorRGBA.g +","+   draw.state.mainColorRGBA.b +")";
@@ -367,9 +464,8 @@ var draw = {
 }
 
 draw.init("draw-area");
-
+renderShablones();
 function toggleFullScreen(elem) {
-    // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
     if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
         if (elem.requestFullScreen) {
             elem.requestFullScreen();
@@ -402,8 +498,7 @@ document.body.onresize = function(){
 }
 setInterval(function(){
    draw.state.paper.recalcLayerMiniatures();
-
-},1000);
+},6000);
 function close(){
   document.getElementById('open-toolbox').checked = false;
 }

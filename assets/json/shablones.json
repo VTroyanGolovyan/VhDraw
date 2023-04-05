@@ -1,0 +1,17 @@
+[
+  {
+    "name" : "1000х1000",
+    "url" : "assets/shablones/1000x1000.png",
+    "preview" : "assets/preview/1000x1000.png"
+  },
+  {
+    "name" : "1200х800",
+    "url" : "assets/shablones/1200x800.png",
+    "preview" : "assets/preview/1200x800.png"
+  },
+  {
+    "name" : "800х1200",
+    "url" : "assets/shablones/800x1200.png",
+    "preview" : "assets/preview/800x1200.png"
+  }
+]

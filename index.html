@@ -33,7 +33,6 @@
        <div class = "toolbox">
             <!-- палитра -->
             <div class = "pallete" id = "palette">
-                <input type="checkbox" id = "toogle-palette">
                 <div id = "color-colection" class = "color-colection">
                     <div class = "color-line">
                         <div onclick = "draw.changeColorRGB(0,0,0)" class =  "color" style="background:rgb(0,0,0)"></div>
@@ -64,81 +63,61 @@
                         <div onclick = "draw.changeColorRGB(107, 142, 35)" class =  "color limited" style="background:rgb(107, 142, 35)"></div>
                     </div>
               </div>
-              <div id = "color-picker" class = "color-picker">
-                   <div class = "select-line">
-                       <input class = "color-range" onchange="draw.changeColor(1,1)" id = "r" min = "0" max = "255" type = "range">
-                       <div class = "rgb-div">
-                           <span>R:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "r1" min="0" max="255">
-                       </div>
-                   </div>
-                   <div class = "select-line">
-                       <input class = "color-range" onchange="draw.changeColor(1,1)" id = "g" min = "0" max = "255" type = "range">
-                       <div class = "rgb-div">
-                           <span>G:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "g1" min="0" max="255">
-                       </div>
-                   </div>
-                   <div class = "select-line">
-                       <input class = "color-range" onchange="draw.changeColor(1,1)" id = "b" min = "0" max = "255" type = "range">
-                       <div class = "rgb-div">
-                           <span>B:</span><input oninput="draw.changeColor(1,2)" value = "0" type="number" id = "b1" min="0" max="255">
-                       </div>
-                   </div>
-              </div>
-              <label  class = "main-color" id = "main-color"><input id = 'color-input' oninput="draw.colorInput()"type = 'color'></label>
+              <label  class = "main-color" id = "main-color"><input id = 'color-input' oninput="draw.colorInput()" type = 'color'></label>
             </div>
             <div class = "toollist">
-                   <div title = "карандаш" onclick="draw.changeTool('Pencil','')">
+                   <div id = "Pencil-button" title = "Карандаш (P)" onclick="draw.changeTool('Pencil','')">
                        <img src = "assets/icon/pencil.png">
                    </div>
-                   <div title = "перетаскивание" onclick="draw.changeTool('Hand','')">
+                   <div id = "Hand-button" title = "Рука (H)" onclick="draw.changeTool('Hand','')">
                        <img src = "assets/icon/hand.png">
                    </div>
-                   <div title = "Слой" onclick="draw.changeTool('AddLayer','assets/icon/addlayer.png')">
+                   <div id = "AddLayer-button" title = "Слой (L)" onclick="draw.changeTool('AddLayer','assets/cursors/addlayer.png')">
                        <img src = "assets/icon/addlayer.png">
                    </div>
-                   <div title = "Слой-изображение" onclick="draw.changeTool('AddImageLayer','assets/icon/add-image-layer.png')">
+                   <div id = "AddImageLayer-button" title = "Изображение (I)" onclick="draw.changeTool('AddImageLayer','')">
                        <img src = "assets/icon/add-image-layer.png">
                    </div>
-                   <div title = "Перемещение" onclick="draw.changeTool('Move','')">
+                   <div id = "Move-button" title = "Перемещение (M)" onclick="draw.changeTool('Move','')">
                        <img src = "assets/icon/move.png">
                    </div>
-                   <div title = "Растяжка" onclick="draw.changeTool('Scale','')">
+                   <div id = "Scale-button" title = "Растяжка (W)" onclick="draw.changeTool('Scale','')">
                        <img src = "assets/icon/scale.png">
                    </div>
-                   <div title = "Ластик" onclick="draw.changeTool('Eraser','')">
+                   <div id = "Eraser-button" title = "Ластик (G)" onclick="draw.changeTool('Eraser','assets/cursors/eraser.png')">
                        <img src = "assets/icon/eraser.png">
                    </div>
-                   <div title = "Пипетка" onclick="draw.changeTool('Pipette','assets/icon/pipette.png')">
+                   <div id = "Pipette-button" title = "Пипетка (N)" onclick="draw.changeTool('Pipette','')">
                        <img src = "assets/icon/pipette.png">
                    </div>
-                   <div title = "Заливка" onclick="draw.changeTool('Fill','assets/icon/fill.png')">
+                   <div id = "Fill-button" title = "Заливка (F)" onclick="draw.changeTool('Fill','assets/cursors/fill.png')">
                        <img src = "assets/icon/fill.png">
                    </div>
-                   <div title = "Ножницы" onclick="draw.changeTool('Cut','assets/icon/cut.png')">
+                   <div id = "Cut-button" title = "Ножницы (U)" onclick="draw.changeTool('Cut','assets/cursors/cut.png')">
                        <img src = "assets/icon/cut.png">
                    </div>
-                   <div title = "Текст" onclick="draw.changeTool('Text','assets/icon/text.png')">
+                   <div id = "Text-button" title = "Текст (Q)" onclick="draw.changeTool('Text','assets/cursors/text.png')">
                        <img src = "assets/icon/text.png">
                    </div>
-                   <div title = "Прямоугольник" onclick="draw.changeTool('StrokeSquare','')">
+                   <div id = "StrokeSquare-button" title = "Прямоугольник (S)" onclick="draw.changeTool('StrokeSquare','')">
                       <img src = "assets/icon/stroke-square.png">
                    </div>
-                   <div title = "Закрашенный прямоугольник" onclick="draw.changeTool('FillSquare','')">
+                   <div id = "FillSquare-button" title = "Закрашенный прямоугольник (V)" onclick="draw.changeTool('FillSquare','')">
                       <img src = "assets/icon/fill-square.png">
                    </div>
-                   <div title = "Треугольник" onclick="draw.changeTool('Triangle','')">
+                   <div id = "Triangle-button" title = "Треугольник (K)" onclick="draw.changeTool('Triangle','')">
                       <img src = "assets/icon/triangle.png">
                    </div>
-                   <div title = "Треугольник" onclick="draw.changeTool('FillTriangle','')">
+                   <div  id = "FillTriangle-button" title = "Закрашенный треугольник (C)" onclick="draw.changeTool('FillTriangle','')">
                       <img src = "assets/icon/fill-triangle.png">
                    </div>
-                   <div title = "Эллипс" onclick="draw.changeTool('Ellips','')">
+                   <div id = "Ellips-button" title = "Эллипс (J)" onclick="draw.changeTool('Ellips','')">
                       <img src = "assets/icon/ellips.png">
                    </div>
-                   <div title = "Эллипс" onclick="draw.changeTool('FillEllips','')">
+                   <div id = "FillEllips-button" title = "Закрашенный эллипс (A)" onclick="draw.changeTool('FillEllips','')">
                       <img src = "assets/icon/fill-ellips.png">
                    </div>
-                   <div title = "Прямая" onclick="draw.changeTool('Line','')">
+                   <div id = "Line-button" title = "Прямая (B)" onclick="draw.changeTool('Line','')">
                       <img src = "assets/icon/line.png">
                    </div>
             </div>
@@ -172,10 +151,9 @@
                   <img title="Вперед" src = "assets/icon/right-arrow.png">
                 </div>
                 <div class="open-history-list">
-                  <img title="История" src = "assets/icon/history.png">
-                  <div class = "history-list">
-                    <div id = "history-list" class = "real-history-list"></div>
-                  </div>
+                  <label title="Помощь" for="help">
+                    <img title="Справка" src = "assets/icon/question.png">
+                  </label>
                 </div>
               </div>
             </div>
@@ -199,10 +177,12 @@
        <input type = "checkbox" id = "open-layers">
        <div class = "open-layers">
          <label title = "Меню слоев" for = "open-layers">
+           <!--
            <img src = "assets/icon/open.png"  class = "hidden-mobile">
            <img src = "assets/icon/open.png" class = "hidden-mobile">
            <img src = "assets/icon/open.png" class = "hidden-mobile">
            <img src = "assets/icon/open.png" class = "hidden-mobile">
+         -->
            <img src = "assets/icon/open.png">
          </label>
        </div>
@@ -212,102 +192,116 @@
 
        <input type = "checkbox" id = "open-documentation">
        <div class = "open-documentation">
-         <label title = "Документация" for = "open-documentation">
+         <label title = "Журнал" for = "open-documentation">
+            <!--
             <img src = "assets/icon/open.png"  class = "desktop hidden-mobile">
             <img src = "assets/icon/open.png" class = "hidden-mobile">
             <img src = "assets/icon/open.png" class = "hidden-mobile">
             <img src = "assets/icon/open.png" class = "hidden-mobile">
+          -->
             <img src = "assets/icon/open.png">
          </label>
        </div>
 
-       <div class = "documentation">
-         <section>
-           <h3>Инструменты</h3>
-           <p>
-              1)<img src = "assets/icon/pencil.png"> Карандаш (p) - предназначен для рисования линий.
-           </p>
-           <p>
-              2)<img src = "assets/icon/hand.png"> Рука (h) - предназначена для пролистывания документа.
-           </p>
-           <p>
-              3)<img src = "assets/icon/stroke-square.png"> Прямоугольник (s) - предназначен для рисования прямоугольников(shift - квадрат).
-           </p>
-           <p>
-              4)<img src = "assets/icon/triangle.png"> Треугольник - предназначен для рисования треугольников.
-           </p>
-           <p>
-              5)<img src = "assets/icon/ellips.png"> Эллипс (j) - предназначен для рисования эллипсов(shift - круг).
-           </p>
-           <p>
-              6)<img src = "assets/icon/line.png"> Прямая (b) - предназначен для рисования прямых линий.
-           </p>
-           <p>
-              7)<img src = "assets/icon/addlayer.png"> Слой (l) - предназначен для создания слоев.
-           </p>
-           <p>
-              8)<img src = "assets/icon/add-image-layer.png"> Изображение (i) - предназначен для вставки картинок(каждая картинка = новый слой).
-           </p>
-           <p>
-              9)<img src = "assets/icon/add-image-layer.png"> Ластик (g) - предназначен для стирания нарисованых элементов.
-           </p>
-           <p>
-              10)<img src = "assets/icon/pipette.png"> Пипетка (n) - предназначена для получения цвета точки.
-           </p>
-           <p>
-              11)<img src = "assets/icon/fill.png"> Заливка (f) - предназначена заливки области.
-           </p>
-           <p>
-              12)<img src = "assets/icon/move.png"> Перемещение (m) - предназначено для смещения слоев.
-           </p>
-           <p>
-              13)<img src = "assets/icon/cut.png"> Ножницы (u) - предназначены для обрезки слоев.
-           </p>
-           <p>
-              14)<img src = "assets/icon/text.png"> Текст (q) - предназначен для рисования текста.
-           </p>
-         </section>
-         <section>
-           <h3>Слои</h3>
-           <p>
-             Справа находиться панель слоев, в ней находяться миниатюры слоев их названия и кнопки управления.
-             Активный слой подсвечивается ,белым контуром на панели слоев
-             Cлой можно Удалить(клавиша delete удаляет активный слой или кнопка с мусорным ведром)
-             Для востановления последнего удаленного слоя нужно нажать ctrl+e;
-           </p>
-           <p>
-             Также слои можно двигать
-           </p>
-           <p>
-             Каждый слой имеет историю изменений для возврата назад или вперед используйте стрелки справа вверху или ctrl+z, ctrl+y
-           </p>
-         </section>
-         <section>
-           <h3>Цвета</h3>
-           <p>
-              Сверху слева находиться панель цветов.
-              Также можно выбрать любой цвет. Для этого нужно нажать на большой квадрат цвета.
-           </p>
-         </section>
-         <section>
-           <h3>Еще немного</h3>
-           <p>
-             Можно перейти в полноэкранный режим нажав на кнопку справа вверху
-           </p>
-           <p>
-             Можно скачать изображение
-           </p>
-           <p>
-             Можно выбрать шаблон
-           </p>
-         </section>
+       <div id = "history-list" class = "documentation">
        </div>
-
+       <input type="checkbox" id = "help">
+       <div id = "help-list" class = "dark-mask">
+         <div class = "close-shablones">
+           <label for = "help">
+             <img src = "assets/icon/close-modal.png">
+           </label>
+         </div>
+         <div class = "container-of-shablones">
+           <section>
+             <h3>Инструменты</h3>
+             <p>
+                1)<img src = "assets/icon/pencil.png"> Карандаш (p) - предназначен для рисования линий.
+             </p>
+             <p>
+                2)<img src = "assets/icon/hand.png"> Рука (h) - предназначена для пролистывания документа.
+             </p>
+             <p>
+                3)<img src = "assets/icon/stroke-square.png"> Прямоугольник (s) - предназначен для рисования прямоугольников(shift - квадрат).
+             </p>
+             <p>
+                4)<img src = "assets/icon/triangle.png"> Треугольник - предназначен для рисования треугольников.
+             </p>
+             <p>
+                5)<img src = "assets/icon/ellips.png"> Эллипс (j) - предназначен для рисования эллипсов(shift - круг).
+             </p>
+             <p>
+                6)<img src = "assets/icon/line.png"> Прямая (b) - предназначен для рисования прямых линий.
+             </p>
+             <p>
+                7)<img src = "assets/icon/addlayer.png"> Слой (l) - предназначен для создания слоев.
+             </p>
+             <p>
+                8)<img src = "assets/icon/add-image-layer.png"> Изображение (i) - предназначен для вставки картинок(каждая картинка = новый слой).
+             </p>
+             <p>
+                9)<img src = "assets/icon/add-image-layer.png"> Ластик (g) - предназначен для стирания нарисованых элементов.
+             </p>
+             <p>
+                10)<img src = "assets/icon/pipette.png"> Пипетка (n) - предназначена для получения цвета точки.
+             </p>
+             <p>
+                11)<img src = "assets/icon/fill.png"> Заливка (f) - предназначена заливки области.
+             </p>
+             <p>
+                12)<img src = "assets/icon/move.png"> Перемещение (m) - предназначено для смещения слоев.
+             </p>
+             <p>
+                13)<img src = "assets/icon/scale.png"> Растяжка (w) - предназначено для изменения размеров слоя.
+             </p>
+             <p>
+                14)<img src = "assets/icon/cut.png"> Ножницы (u) - предназначены для обрезки слоев.
+             </p>
+             <p>
+                15)<img src = "assets/icon/text.png"> Текст (q) - предназначен для рисования текста.
+             </p>
+           </section>
+           <section>
+             <h3>Слои</h3>
+             <p>
+               Справа находиться панель слоев, в ней находяться миниатюры слоев их названия и кнопки управления.
+               Активный слой подсвечивается ,белым контуром на панели слоев
+               Cлой можно Удалить(клавиша delete удаляет активный слой или кнопка с мусорным ведром)
+               Для востановления последнего удаленного слоя нужно нажать ctrl+e;
+             </p>
+             <p>
+               Также слои можно двигать
+             </p>
+             <p>
+               Каждый слой имеет историю изменений для возврата назад или вперед используйте стрелки справа вверху или ctrl+z, ctrl+y
+             </p>
+           </section>
+           <section>
+             <h3>Цвета</h3>
+             <p>
+                Сверху слева находиться панель цветов.
+                Также можно выбрать любой цвет. Для этого нужно нажать на большой квадрат цвета.
+             </p>
+           </section>
+           <section>
+             <h3>Еще немного</h3>
+             <p>
+               Можно перейти в полноэкранный режим нажав на кнопку справа вверху
+             </p>
+             <p>
+               Можно скачать изображение
+             </p>
+             <p>
+               Можно выбрать шаблон
+             </p>
+           </section>
+         </div>
+       </div>
        <div class = "mobileScale">
-         <div onclick="draw.scale(0.08)">
+         <div onclick="draw.simpleScale(0.08)">
            <img src = "assets/icon/plus.png">
          </div>
-         <div onclick="draw.scale(-0.08)">
+         <div onclick="draw.simpleScale(-0.08)">
            <img src = "assets/icon/minus.png">
          </div>
        </div>

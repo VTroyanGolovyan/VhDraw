@@ -28,11 +28,37 @@ function Text(state, ctx){
   buttonOk.className = 'select-format';
   buttonOk.innerHTML = 'OK';
   textInput.appendChild(buttonOk);
+  this.text = "";
+  var t = this;
   buttonOk.onclick = function(){
     cont.remove();
     state.mute = false;
+    if (t.text != ""){
+      var width = Math.round(state.paper.width*0.4);
+      var size = Math.round(width/t.text.length)*1.5;
+      var height = size+5;
+      state.toolName = "Scale";
+      state.paper.addLayer(Math.round((state.paper.width-width)/2),Math.round((state.paper.height-height)/2),width,height,1);
+      var l = state.paper.getLayer(state.activeLayer);
+      l.name = t.text;
+      l.miniaturaF = false;
+      l.color = state.mainColor;
+      state.paper.renderLayersControllers('layers');
+      var ctx = l.getCtx();
+      ctx.strokeStyle = state.mainColor;
+      ctx.lineWidth = state.lineWidth;
+      var d = Math.floor(state.lineWidth/2);
+     // ctx.strokeRect(d,d,l.width-2*d,l.height-2*d);
+
+     ctx.fillStyle = state.mainColor;
+
+     ctx.font = size + "px Georgia";
+     ctx.textBaseline = "top";
+     ctx.fillText(t.text,0,0,width);
+     state.paper.save("Текст");
+    }
   }
-  this.text = "";
+
   input.setAttribute('type','text');
   cont.setAttribute('id','fileup');
 
@@ -41,6 +67,8 @@ function Text(state, ctx){
   var t = this;
   input.oninput = function(){
      t.text   = this.value;
+
+
   }
 
   this.render = function(ctx){
@@ -71,8 +99,8 @@ function Text(state, ctx){
      this.ctx.strokeStyle = state.mainColor;
      this.ctx.lineWidth = state.lineWidth;
      this.active = true;
-     this.startX = coords.x;
-     this.startY = coords.y;
+     this.startX = coords.docx;
+     this.startY = coords.docy;
      this.x = coords.viewx;
      this.y = coords.viewy;
      this.startvX = coords.viewx;
@@ -89,26 +117,43 @@ function Text(state, ctx){
      this.ctx.fillStyle = state.mainColor;
      this.active = false;
      var x,y,width,height;
-     if (coords.x > this.startX){
+     var t = false;
+     if (coords.docx > this.startX){
        x = this.startX;
-       width = coords.x - this.startX;
+       width = coords.docx - this.startX;
      }else{
-       x = coords.x;
-       width = this.startX -  coords.x;
+       x = coords.docx;
+       width = this.startX -  coords.docx;
      }
-     if (coords.y > this.startY){
+     if (coords.docy > this.startY){
        y = this.startY;
-       height = coords.y - this.startY;
+       height = coords.docy - this.startY;
+       t = true;
      }else{
-       y = coords.y;
+       y = coords.docy;
        height = this.startY -  coords.docy;
      }
-    this.ctx.fillStyle = state.mainColor;
-    var size = Math.floor(width/this.text.length*1.5)
-    this.ctx.font = size + "px Georgia";
-    this.ctx.textBaseline = "top";
-    this.ctx.fillText(this.text,x,y,width);
-    this.state.paper.save("Текст");
+     if(width > 0 && height > 0){
+       this.state.toolName = "Scale";
+         var size = Math.floor(width/this.text.length*1.5)
+         if (height < size+10)
+           height = size+10;
+       this.state.paper.addLayer(x,y,width,height,1);
+       var l = this.state.paper.getLayer(this.state.activeLayer);
+       l.name = 'Текст';
+       var ctx = l.getCtx();
+       ctx.strokeStyle = state.mainColor;
+       ctx.lineWidth = state.lineWidth;
+       var d = Math.floor(state.lineWidth/2);
+      // ctx.strokeRect(d,d,l.width-2*d,l.height-2*d);
+
+      ctx.fillStyle = state.mainColor;
+
+      ctx.font = size + "px Georgia";
+      ctx.textBaseline = "top";
+      ctx.fillText(this.text,0,0,width);
+      state.paper.save("Текст");
+    }
   }
   this.onmouseout = function(){
      this.active = false;

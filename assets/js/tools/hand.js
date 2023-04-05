@@ -10,15 +10,22 @@ function Hand(state, ctx){
 
   }
   this.onmousedown  = function(coords){
-     this.active = true;
-     this.startX = coords.x;
-     this.startY = coords.y;
-     this.state.view.style.cursor = "move";
+      if ((state.paper.width*state.area.scale > state.view.width) ||
+          (state.paper.height*state.area.scale > state.view.height)){
+            this.active = true;
+            this.startX = coords.x;
+            this.startY = coords.y;
+            this.state.view.style.cursor = "move";
+       }
   }
   this.onmousemove  = function(coords){
      if (this.active){
-       this.state.area.x -= (coords.x - this.startX)/8;
-       this.state.area.y -= (coords.y - this.startY)/8;
+       if (state.paper.width*state.area.scale > state.view.width){
+            this.state.area.x -= (coords.x - this.startX)/8;
+       }
+       if (state.paper.height*state.area.scale > state.view.height){
+            this.state.area.y -= (coords.y - this.startY)/8;
+       }
      }
   }
   this.onmouseup  = function(coords){

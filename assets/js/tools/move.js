@@ -12,7 +12,7 @@ function Move(state, ctx){
   this.onmousedown  = function(coords){
     var l = this.state.paper.getLayer(this.state.activeLayer);
     if (l.x <= coords.docx && l.x+l.width >= coords.docx &&
-        l.y <= coords.docy && l.y+l.height >= coords.docy){
+        l.y <= coords.docy && l.y+l.height >= coords.docy && l.isDragable){
      this.active = true;
      this.startX = coords.x;
      this.startY = coords.y;
@@ -21,8 +21,8 @@ function Move(state, ctx){
   }
   this.onmousemove  = function(coords){
      if (this.active){
-       var dx = (coords.x - this.startX)/8;
-       var dy = (coords.y - this.startY)/8;
+       var dx = (coords.x - this.startX);
+       var dy = (coords.y - this.startY);
        this.state.paper.getLayer(this.state.activeLayer).move(dx,dy);
      }
   }

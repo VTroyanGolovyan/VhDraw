@@ -1,6 +1,9 @@
-function Layer(x,y,width,height,name = ""){
+function Layer(x,y,width,height,type = 0,name = ""){
   this.canvas = document.createElement('canvas');
   this.name = name;
+  this.type = type;
+
+  this.miniaturaF = true;
   this.canvas.width = width;
   this.canvas.height = height;
   this.ctx = this.canvas.getContext("2d");
@@ -11,9 +14,31 @@ function Layer(x,y,width,height,name = ""){
   this.visible = true;
   this.history = new Array();
   this.now = 0;
+  this.isDragable = true;
+  this.color = "#000000";
+  if (type == 1){
+    this.textcanvas = document.createElement('canvas');
+    this.textcanvas.width = width;
+    this.textcanvas.height = height;
+    this.textctx = this.textcanvas.getContext("2d");
+  }
   this.move = function(dx,dy){
     this.x += dx;
     this.y += dy;
+  }
+  this.changeColor = function(color,state){
+    if (this.type == 1){
+      this.textcanvas.width = this.textcanvas.width;
+      var size = Math.round(this.textcanvas.width*1.5/this.name.length);
+      this.color = color;
+      this.textctx.fillStyle = color;
+      this.textctx.font = size + "px Georgia";
+      this.textctx.textBaseline = "top";
+      this.textctx.fillText(this.name,0,0,this.textcanvas.width);
+      this.canvas.width = this.canvas.width;
+      this.ctx.drawImage(this.textcanvas,0,0,this.textcanvas.width,this.textcanvas.height,0,0,this.canvas.width,this.canvas.height);
+      state.paper.save("Цвет текста");
+    }
   }
   this.scale = function(width,height){
     var scaled = document.createElement('canvas');
@@ -77,6 +102,7 @@ function Layer(x,y,width,height,name = ""){
     this.renderMiniatura(this.canvas.width,this.canvas.height,this.miniatura.width,this.miniatura.height);
     this.renderHistory(document.getElementById("history-list"));
   }
+
   this.isVisible = function(){
     return this.visible;
   }
@@ -144,7 +170,7 @@ function Layer(x,y,width,height,name = ""){
   this.renderHistory = function(container){
     container.innerHTML = '';
     var layerName = document.createElement("div");
-    layerName.innerHTML = "История";
+    layerName.innerHTML = "Журнал";
     layerName.className = 'history-name';
     container.appendChild(layerName);
     var t = this;
